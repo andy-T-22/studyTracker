@@ -92,6 +92,36 @@
             background: #d6d1c7;
             border-radius: 4px;
         }
+
+        /* MANAGER LIST STYLES */
+        .manager-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+
+        .manager-item:hover {
+            border-color: var(--acc-blue);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        .manager-item input {
+            border: none !important;
+            background: transparent !important;
+            font-weight: 500;
+            width: 100%;
+            outline: none;
+        }
+
+        .manager-item input:focus {
+            border-bottom: 1px solid var(--acc-blue) !important;
+            border-radius: 0 !important;
+        }
     </style>
 </head>
 
@@ -173,7 +203,7 @@
                         <div>
                             <div class="flex justify-between items-center mb-2">
                                 <label class="text-xs text-[#8a8175] uppercase font-bold tracking-wider">Materia</label>
-                                <button onclick="manageSubjects()"
+                                <button onclick="openManager('Subjects')"
                                     class="text-xs text-[#74a8db] hover:underline">Gestionar</button>
                             </div>
                             <select id="sel-subject"
@@ -184,7 +214,7 @@
                         <div>
                             <div class="flex justify-between items-center mb-2">
                                 <label class="text-xs text-[#8a8175] uppercase font-bold tracking-wider">Método</label>
-                                <button onclick="manageMethods()"
+                                <button onclick="openManager('Methods')"
                                     class="text-xs text-[#74a8db] hover:underline">Gestionar</button>
                             </div>
                             <select id="sel-method"
@@ -264,22 +294,29 @@
 
             <!-- HISTORY VIEW -->
             <section id="view-history" class="hidden fade-in">
-                <div class="glass rounded-3xl overflow-hidden shadow-sm">
-                    <table class="w-full text-left text-sm text-[#5c554b]">
-                        <thead class="bg-[#f0ece4] uppercase text-xs font-bold text-[#8a8175]">
-                            <tr>
-                                <th class="p-5">Fecha</th>
-                                <th class="p-5">Materia</th>
-                                <th class="p-5">Tiempo</th>
-                                <th class="p-5">Efic.</th>
-                                <th class="p-5 text-right">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="history-list" class="divide-y divide-[#e6e2d8]">
-                            <!-- Injected JS -->
-                        </tbody>
-                    </table>
+                <div class="flex justify-end mb-4">
+                    <button onclick="openManualEntry()"
+                        class="bg-[#a5ccf5] hover:bg-[#74a8db] text-[#5c554b] px-4 py-2 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
+                        <i class="fas fa-plus"></i> Agregar Sesión
+                    </button>
                 </div>
+
+                <div class="glass rounded-3xl overflow-hidden shadow-sm">
+                    <div class="glass rounded-3xl overflow-hidden shadow-sm">
+                        <table class="w-full text-left text-sm text-[#5c554b]">
+                            <thead class="bg-[#f0ece4] uppercase text-xs font-bold text-[#8a8175]">
+                                <tr>
+                                    <th class="p-5">Fecha</th>
+                                    <th class="p-5">Materia</th>
+                                    <th class="p-5">Tiempo</th>
+                                    <th class="p-5 text-right">Efic.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-list" class="divide-y divide-[#e6e2d8]">
+                                <!-- Injected JS -->
+                            </tbody>
+                        </table>
+                    </div>
             </section>
         </main>
     </div>
@@ -353,12 +390,181 @@
         </div>
     </div>
 
+    <!-- MODAL: MANAGER (Subjects / Methods) -->
+    <div id="modal-manager"
+        class="fixed inset-0 z-[60] bg-[#5c554b]/50 flex items-center justify-center hidden backdrop-blur-sm">
+        <div
+            class="bg-[#fcfbf7] rounded-3xl w-full max-w-md mx-4 shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+
+            <!-- Header -->
+            <div class="p-6 border-b border-[#e6e2d8] flex justify-between items-center bg-white/50 backdrop-blur">
+                <h3 id="manager-title" class="text-lg font-bold text-[#5c554b]">Gestionar</h3>
+                <button onclick="closeManager()" class="text-[#8a8175] hover:text-[#5c554b] transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- List Body -->
+            <div id="manager-list" class="p-6 space-y-3 overflow-y-auto flex-1">
+                <!-- Injected Items -->
+            </div>
+
+            <!-- Footer (Add) -->
+            <div class="p-4 border-t border-[#e6e2d8] bg-white/50 backdrop-blur">
+                <button onclick="addManagerItem()"
+                    class="w-full py-3 rounded-xl border-2 border-dashed border-[#a5ccf5] text-[#74a8db] hover:bg-[#a5ccf5]/10 hover:border-[#74a8db] font-bold transition-all flex items-center justify-center gap-2">
+                    <i class="fas fa-plus"></i> Agregar Nuevo
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MODAL: SESSION DETAILS -->
+    <div id="modal-detail"
+        class="fixed inset-0 z-[70] bg-[#5c554b]/60 flex items-center justify-center hidden backdrop-blur-sm">
+        <div
+            class="bg-[#fcfbf7] rounded-3xl w-full max-w-2xl mx-4 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+
+            <!-- Header -->
+            <div class="p-6 border-b border-[#e6e2d8] flex justify-between items-center bg-white/50">
+                <div>
+                    <h3 class="text-xl font-bold text-[#5c554b]">Detalle de Sesión</h3>
+                    <p id="detail-date" class="text-xs text-[#8a8175] font-mono mt-1">...</p>
+                </div>
+                <button onclick="closeDetail()" class="text-[#8a8175] hover:text-[#5c554b] p-2">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="p-8 overflow-y-auto">
+
+                <!-- Info Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white p-4 rounded-2xl border border-[#e6e2d8]">
+                        <div class="text-xs text-[#8a8175] uppercase font-bold">Tiempo Neto</div>
+                        <div id="detail-net" class="text-xl font-black text-[#5c554b] mt-1">--</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-[#e6e2d8]">
+                        <div class="text-xs text-[#8a8175] uppercase font-bold">Total</div>
+                        <div id="detail-gross" class="text-xl font-black text-[#5c554b] mt-1">--</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-[#e6e2d8]">
+                        <div class="text-xs text-[#8a8175] uppercase font-bold">Pausas <span id="detail-pause-time"
+                                class="text-[10px] font-normal text-gray-400 ml-1"></span></div>
+                        <div id="detail-pauses" class="text-xl font-black text-[#5c554b] mt-1">--</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-[#e6e2d8]">
+                        <div class="text-xs text-[#8a8175] uppercase font-bold">Eficiencia</div>
+                        <div id="detail-efficiency" class="text-xl font-black text-[#5c554b] mt-1">--%</div>
+                    </div>
+                </div>
+
+                <!-- Editable Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <label class="text-xs text-[#8a8175] uppercase font-bold mb-2 block">Materia</label>
+                        <select id="detail-subject" disabled
+                            class="w-full p-3 rounded-xl border border-[#e6e2d8] bg-transparent text-[#5c554b] font-bold outline-none focus:border-[#a5ccf5] disabled:opacity-70 disabled:bg-gray-50/50">
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-xs text-[#8a8175] uppercase font-bold mb-2 block">Método</label>
+                        <select id="detail-method" disabled
+                            class="w-full p-3 rounded-xl border border-[#e6e2d8] bg-transparent text-[#5c554b] font-bold outline-none focus:border-[#a5ccf5] disabled:opacity-70 disabled:bg-gray-50/50">
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Timeline Chart -->
+                <div class="mb-4">
+                    <h4 class="text-sm font-bold text-[#5c554b] mb-4">Línea de Tiempo</h4>
+                    <div class="h-32 bg-white rounded-2xl border border-[#e6e2d8] p-4 relative">
+                        <canvas id="chart-timeline"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="p-6 border-t border-[#e6e2d8] bg-white/50 flex justify-between">
+                <button onclick="promptDeleteSession()"
+                    class="text-red-400 hover:text-red-600 font-bold text-sm px-4 py-2 hover:bg-red-50 rounded-lg transition-colors">
+                    <i class="fas fa-trash mr-2"></i> Eliminar
+                </button>
+
+                <div class="flex gap-3">
+                    <button id="btn-edit-session" onclick="toggleEditSession()"
+                        class="text-[#74a8db] hover:bg-blue-50 px-6 py-2 rounded-xl font-bold transition-colors">
+                        Editar
+                    </button>
+                    <button id="btn-save-session" onclick="saveSessionChanges()"
+                        class="hidden bg-[#a5ccf5] hover:bg-[#74a8db] text-[#5c554b] px-6 py-2 rounded-xl font-bold transition-colors shadow-sm">
+                        Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: MANUAL ENTRY -->
+    <div id="modal-manual"
+        class="fixed inset-0 z-[70] bg-[#5c554b]/60 flex items-center justify-center hidden backdrop-blur-sm">
+        <div class="bg-white p-8 rounded-3xl w-full max-w-md mx-4 shadow-2xl">
+            <h3 class="text-xl font-bold text-[#5c554b] mb-6">Agregar Sesión Manual</h3>
+
+            <div class="space-y-4 mb-8">
+                <div>
+                    <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Fecha</label>
+                    <input type="date" id="man-date"
+                        class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Inicio</label>
+                        <input type="time" id="man-start"
+                            class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Fin</label>
+                        <input type="time" id="man-end"
+                            class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Materia</label>
+                        <select id="man-subject"
+                            class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]"></select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Método</label>
+                        <select id="man-method"
+                            class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]"></select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Minutos de Pausa (Op.)</label>
+                    <input type="number" id="man-pause" min="0" value="0"
+                        class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]">
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="document.getElementById('modal-manual').classList.add('hidden')"
+                    class="flex-1 text-[#8a8175] font-bold hover:bg-gray-100 py-3 rounded-xl">Cancelar</button>
+                <button onclick="saveManualEntry()"
+                    class="flex-1 bg-[#a5f5c3] hover:bg-[#74db9c] text-[#5c554b] font-bold py-3 rounded-xl shadow-sm">Guardar</button>
+            </div>
+        </div>
+    </div>
+
 
     <!-- LOGIC -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-        import { getFirestore, collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp, deleteDoc, updateDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
         // --- CONFIG ---
         const firebaseConfig = {
@@ -405,7 +611,28 @@
             historyList: document.getElementById('history-list'),
             selSubject: document.getElementById('sel-subject'),
             selMethod: document.getElementById('sel-method'),
-            btnToggleSeconds: document.getElementById('btn-toggle-seconds')
+            btnToggleSeconds: document.getElementById('btn-toggle-seconds'),
+
+            // Manager DOM
+            modalManager: document.getElementById('modal-manager'),
+            managerTitle: document.getElementById('manager-title'),
+            managerList: document.getElementById('manager-list'),
+
+            // Detail DOM
+            modalDetail: document.getElementById('modal-detail'),
+            detailDate: document.getElementById('detail-date'),
+            detailNet: document.getElementById('detail-net'),
+            detailGross: document.getElementById('detail-gross'),
+            detailPauses: document.getElementById('detail-pauses'),
+            detailPauseTime: document.getElementById('detail-pause-time'),
+            detailEfficiency: document.getElementById('detail-efficiency'),
+            detailSubject: document.getElementById('detail-subject'),
+            detailMethod: document.getElementById('detail-method'),
+
+            // Manual DOM
+            modalManual: document.getElementById('modal-manual'),
+            manSubject: document.getElementById('man-subject'),
+            manMethod: document.getElementById('man-method')
         };
 
         // --- AUTH ---
@@ -462,41 +689,127 @@
             loadHistory();
         }
 
-        // --- MANAGE LISTS ---
+        // --- MANAGE LISTS (NEW PRO VERSION) ---
         function renderDropdowns() {
             dom.selSubject.innerHTML = subjects.map(s => `<option value="${s}">${s}</option>`).join('');
             dom.selMethod.innerHTML = methods.map(m => `<option value="${m}">${m}</option>`).join('');
         }
 
-        window.manageSubjects = () => {
-            manageList("Materias", subjects, 'study_subjects', renderDropdowns);
+        let currentManagerType = null; // 'Subjects' or 'Methods'
+
+        window.openManager = (type) => {
+            currentManagerType = type;
+            dom.managerTitle.textContent = type === 'Subjects' ? 'Gestionar Materias' : 'Gestionar Métodos';
+            dom.modalManager.classList.remove('hidden');
+            renderManagerList();
         };
 
-        window.manageMethods = () => {
-            manageList("Métodos", methods, 'study_methods', renderDropdowns);
+        window.closeManager = () => {
+            dom.modalManager.classList.add('hidden');
+            currentManagerType = null;
         };
 
-        function manageList(title, listData, storageKey, callback) {
-            let action = prompt(`Gestionar ${title}:\n1. Agregar Nuevo\n2. Eliminar Existente\n\nEscribe '1' o '2':`);
+        function renderManagerList() {
+            const listData = currentManagerType === 'Subjects' ? subjects : methods;
+            const container = dom.managerList;
 
-            if (action === '1') {
-                let name = prompt(`Nombre del nuevo ${title.slice(0, -1)}:`);
-                if (name && !listData.includes(name)) {
-                    listData.push(name);
-                    localStorage.setItem(storageKey, JSON.stringify(listData));
-                    callback();
-                }
-            } else if (action === '2') {
-                let name = prompt(`Escribe el nombre EXACTO a eliminar:\n\n${listData.join(', ')}`);
-                const idx = listData.indexOf(name);
-                if (idx > -1) {
-                    listData.splice(idx, 1);
-                    localStorage.setItem(storageKey, JSON.stringify(listData));
-                    callback();
-                } else if (name) {
-                    alert("No encontrado.");
+            container.innerHTML = '';
+
+            listData.forEach((item, index) => {
+                const el = document.createElement('div');
+                el.className = 'manager-item';
+                el.innerHTML = `
+                    <input type="text" value="${item}" readonly 
+                        class="text-[#5c554b] text-sm bg-transparent"
+                        id="man-input-${index}">
+                    
+                    <div class="flex items-center gap-2 ml-2">
+                        <button onclick="enableEdit(${index})" class="w-8 h-8 rounded-full hover:bg-blue-50 text-blue-400 flex items-center justify-center transition-colors">
+                            <i id="icon-edit-${index}" class="fas fa-pencil-alt text-xs"></i>
+                        </button>
+                        <button onclick="deleteItem(${index})" class="w-8 h-8 rounded-full hover:bg-red-50 text-red-400 flex items-center justify-center transition-colors">
+                            <i class="fas fa-trash-alt text-xs"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+
+            if (listData.length === 0) {
+                container.innerHTML = `<div class="text-center text-[#8a8175] text-sm italic py-4">No hay elementos aún.</div>`;
+            }
+        }
+
+        window.addManagerItem = () => {
+            const listData = currentManagerType === 'Subjects' ? subjects : methods;
+            const storageKey = currentManagerType === 'Subjects' ? 'study_subjects' : 'study_methods';
+
+            // Add temp placeholder
+            listData.push("Nuevo Elemento");
+            saveManagerList(listData, storageKey);
+
+            // Re-render and focus the new item
+            renderManagerList();
+            const newIndex = listData.length - 1;
+            enableEdit(newIndex, true); // True means select all text immediately
+        };
+
+        window.enableEdit = (index, selectAll = false) => {
+            const input = document.getElementById(`man-input-${index}`);
+            const icon = document.getElementById(`icon-edit-${index}`);
+
+            if (input.readOnly) {
+                // Enter Edit Mode
+                input.readOnly = false;
+                input.focus();
+                if (selectAll) input.select();
+
+                // Change icon to Check/Save
+                icon.className = "fas fa-check text-green-500";
+                input.parentElement.querySelector('button').onclick = () => saveEdit(index);
+
+                // Handle Enter key
+                input.onkeydown = (e) => {
+                    if (e.key === 'Enter') saveEdit(index);
+                };
+            }
+        };
+
+        window.saveEdit = (index) => {
+            const listData = currentManagerType === 'Subjects' ? subjects : methods;
+            const storageKey = currentManagerType === 'Subjects' ? 'study_subjects' : 'study_methods';
+            const input = document.getElementById(`man-input-${index}`);
+
+            const newValue = input.value.trim();
+
+            if (newValue) {
+                listData[index] = newValue;
+                saveManagerList(listData, storageKey);
+                renderManagerList();
+            } else {
+                // If empty, maybe confirm delete? Or just revert? Let's revert for safety or delete if it was new.
+                if (listData[index] === "Nuevo Elemento") {
+                    deleteItem(index);
+                } else {
+                    alert("El nombre no puede estar vacío.");
                 }
             }
+        };
+
+        window.deleteItem = (index) => {
+            const listData = currentManagerType === 'Subjects' ? subjects : methods;
+            const storageKey = currentManagerType === 'Subjects' ? 'study_subjects' : 'study_methods';
+
+            if (confirm("¿Estás seguro de eliminar este elemento?")) {
+                listData.splice(index, 1);
+                saveManagerList(listData, storageKey);
+                renderManagerList();
+            }
+        };
+
+        function saveManagerList(data, key) {
+            localStorage.setItem(key, JSON.stringify(data));
+            renderDropdowns(); // Update main UI dropdowns immediately
         }
 
 
@@ -737,6 +1050,7 @@
                         d.id = doc.id; // Store Doc ID for delete/edit
                         docs.push(d);
                     });
+                    window.globalSessionCache = docs; // Cache for Detail View
                     renderHistoryData(docs);
                 }, (error) => {
                     console.error("Firestore Error:", error);
@@ -746,6 +1060,7 @@
                 const guestHistory = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
                 // Add fake IDs for local management
                 guestHistory.forEach((item, index) => item.id = index);
+                window.globalSessionCache = guestHistory; // Cache for Detail View
                 renderHistoryData(guestHistory);
             }
         }
@@ -776,15 +1091,14 @@
                 const itemId = data.id;
 
                 const row = `
-                    <tr class="hover:bg-[#fcfbf7] transition-colors border-b border-[#e6e2d8] last:border-0">
-                        <td class="p-5 text-[#5c554b]">${dateStr}</td>
+                    <tr onclick="openSessionDetails('${itemId}')" class="cursor-pointer hover:bg-[#fcfbf7] transition-all border-b border-[#e6e2d8] last:border-0 group">
+                        <td class="p-5 text-[#5c554b] group-hover:pl-6 transition-all duration-300">
+                             <div class="font-bold">${dateStr}</div>
+                             <div class="text-[10px] text-[#8a8175]">${new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                        </td>
                         <td class="p-5"><span class="bg-[#dcd3ff] text-[#5c554b] px-2 py-1 rounded text-xs font-bold uppercase">${data.subject}</span></td>
                         <td class="p-5 font-mono text-[#8a8175]">${minutes} min</td>
-                        <td class="p-5 ${data.efficiency < 50 ? 'text-red-400' : 'text-[#74db9c]'} font-bold">${data.efficiency}%</td>
-                        <td class="p-5 text-right text-xs">
-                             <button onclick="editSession('${itemId}')" class="text-blue-400 hover:text-blue-600 mr-2"><i class="fas fa-edit"></i></button>
-                             <button onclick="deleteSession('${itemId}')" class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button>
-                        </td>
+                        <td class="p-5 text-right ${data.efficiency < 50 ? 'text-red-400' : 'text-[#74db9c]'} font-bold text-lg">${data.efficiency}%</td>
                     </tr>
                 `;
                 list.innerHTML += row;
@@ -814,44 +1128,290 @@
             updateCharts();
         }
 
-        // --- EDIT / DELETE LOGIC ---
-        // Note: For guests (localStorage) vs Auth (Firestore)
+        // --- DETAIL & FEATURES ---
 
-        window.deleteSession = async (id) => {
-            if (!confirm("¿Seguro que deseas eliminar esta sesión del historial?")) return;
+        let currentDetailId = null;
+        let timelineChartInstance = null;
+
+        window.openSessionDetails = async (id) => {
+            // Find Data
+            let session = null;
+            if (currentUser) {
+                session = window.globalSessionCache ? window.globalSessionCache.find(s => s.id === id) : null;
+            } else {
+                const history = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
+                session = history.find(s => s.id == id);
+            }
+
+            if (!session) return;
+
+            currentDetailId = id;
+
+            // Populate Stats
+            dom.detailDate.textContent = new Date(session.startTime).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            dom.detailNet.textContent = formatTime(session.netDuration || 0);
+            dom.detailGross.textContent = formatTime(session.grossDuration || 0);
+
+            // Pauses
+            const pauseList = session.interruptions || [];
+            dom.detailPauses.textContent = pauseList.length;
+            const totalPauseMs = pauseList.reduce((acc, p) => acc + (p.duration || 0), 0);
+            const totalPauseMins = Math.floor(totalPauseMs / 60000);
+            dom.detailPauseTime.textContent = totalPauseMins > 0 ? `(${totalPauseMins}m)` : '';
+
+            dom.detailEfficiency.textContent = (session.efficiency || 0) + '%';
+
+            // Populate Dropdowns & Ensure Value exists
+            let currentSubList = [...subjects];
+            if (!currentSubList.includes(session.subject)) currentSubList.push(session.subject);
+            dom.detailSubject.innerHTML = currentSubList.map(s => `<option value="${s}">${s}</option>`).join('');
+            dom.detailSubject.value = session.subject;
+
+            let currentMetList = [...methods];
+            if (!currentMetList.includes(session.method)) currentMetList.push(session.method);
+            dom.detailMethod.innerHTML = currentMetList.map(m => `<option value="${m}">${m}</option>`).join('');
+            dom.detailMethod.value = session.method;
+
+            // Reset UI state (FORCE DISABLED)
+            disableEditSession();
+
+            // Open Modal
+            dom.modalDetail.classList.remove('hidden');
+
+            // Render Chart
+            setTimeout(() => renderTimelineChart(session), 50);
+        };
+
+        window.closeDetail = () => dom.modalDetail.classList.add('hidden');
+
+        function disableEditSession() {
+            dom.detailSubject.disabled = true;
+            dom.detailMethod.disabled = true;
+            // Styles to ensure it looks disabled
+            dom.detailSubject.classList.add('opacity-70', 'bg-gray-50');
+            dom.detailMethod.classList.add('opacity-70', 'bg-gray-50');
+
+            document.getElementById('btn-edit-session').classList.remove('hidden');
+            document.getElementById('btn-save-session').classList.add('hidden');
+        }
+
+        window.toggleEditSession = () => {
+            dom.detailSubject.disabled = false;
+            dom.detailMethod.disabled = false;
+            dom.detailSubject.classList.remove('opacity-70', 'bg-gray-50');
+            dom.detailMethod.classList.remove('opacity-70', 'bg-gray-50');
+
+            document.getElementById('btn-edit-session').classList.add('hidden');
+            document.getElementById('btn-save-session').classList.remove('hidden');
+        };
+
+        window.saveSessionChanges = async () => {
+            const newSub = dom.detailSubject.value;
+            const newMet = dom.detailMethod.value;
 
             if (currentUser) {
-                // Firestore delete
-                // Requires import of deleteDoc and doc
-                // We'll trust standard firebase SDK availability or use simple alert if missing imports
-                alert("La eliminación en la nube requiere refrescar la página para actualizar. (Implementación pendiente de imports completos)");
+                try {
+                    const docRef = doc(db, "study_sessions", currentDetailId);
+                    await updateDoc(docRef, {
+                        subject: newSub,
+                        method: newMet
+                    });
+                    disableEditSession();
+                    alert("¡Guardado en Nube!");
+                } catch (e) {
+                    console.error(e);
+                    alert("Error al actualizar: " + e.message);
+                }
             } else {
-                // Local Guest Delete
-                let guestHistory = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
-                guestHistory = guestHistory.filter((item, index) => index != id); // id is index for guest
-                localStorage.setItem('guest_study_history', JSON.stringify(guestHistory));
-                loadHistory();
+                const history = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
+                const idx = history.findIndex(s => s.id == currentDetailId);
+                if (idx > -1) {
+                    history[idx].subject = newSub;
+                    history[idx].method = newMet;
+                    localStorage.setItem('guest_study_history', JSON.stringify(history));
+                    loadHistory(); // Reload table
+                    disableEditSession();
+                    alert("Guardado.",);
+                }
             }
         };
 
-        window.editSession = async (id) => {
-            // Limited edit: Subject Only for simplicity in this iteration
-            if (currentUser) {
-                alert("Edición en nube no disponible en esta versión rápida.");
-                return;
+        window.promptDeleteSession = async () => {
+            if (confirm("¿Eliminar esta sesión permanentemente?")) {
+                if (currentUser) {
+                    try {
+                        await deleteDoc(doc(db, "study_sessions", currentDetailId));
+                        dom.modalDetail.classList.add('hidden');
+                        alert("Sesión eliminada de la nube.");
+                    } catch (e) {
+                        console.error(e);
+                        alert("Error al eliminar: " + e.message);
+                    }
+                } else {
+                    let history = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
+                    history = history.filter(s => s.id != currentDetailId);
+                    localStorage.setItem('guest_study_history', JSON.stringify(history));
+                    dom.modalDetail.classList.add('hidden');
+                    loadHistory();
+                    alert("Sesión eliminada.");
+                }
+            }
+        };
+
+        // --- TIMELINE CHART (FIXED) ---
+        function renderTimelineChart(session) {
+            const ctx = document.getElementById('chart-timeline').getContext('2d');
+            if (timelineChartInstance) timelineChartInstance.destroy();
+
+            const start = session.startTime;
+            const end = session.endTime;
+            const pauses = session.interruptions || [];
+            pauses.sort((a, b) => a.start - b.start);
+
+            // Create Segment Objects
+            let segments = [];
+            let cursor = start;
+
+            pauses.forEach(p => {
+                // Study segment before pause
+                if ((p.start - cursor) > 1000) {
+                    segments.push({ type: 'Study', start: cursor, end: p.start, reason: 'Estudio' });
+                }
+                // Pause segment
+                segments.push({ type: 'Pause', start: p.start, end: p.end, reason: p.reason || 'Pausa' });
+                cursor = p.end;
+            });
+
+            // Final study segment
+            if ((end - cursor) > 1000) {
+                segments.push({ type: 'Study', start: cursor, end: end, reason: 'Estudio' });
             }
 
-            let guestHistory = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
-            const itemIndex = id; // id is index
-            const item = guestHistory[itemIndex];
+            // Map to Chart.js data
+            const dataPoints = segments.map(s => ({
+                x: [s.start, s.end],
+                y: 'Sesión',
+                _type: s.type,
+                _reason: s.reason,
+                _duration: s.end - s.start
+            }));
 
-            if (!item) return;
+            const bgColors = segments.map(s => s.type === 'Study' ? '#a5f5c3' : '#f5a5c0');
 
-            const newSubject = prompt("Editar Materia:", item.subject);
-            if (newSubject) {
-                item.subject = newSubject;
-                localStorage.setItem('guest_study_history', JSON.stringify(guestHistory));
+            timelineChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Sesión'],
+                    datasets: [{
+                        label: 'Línea de Tiempo',
+                        data: dataPoints,
+                        backgroundColor: bgColors,
+                        borderWidth: 0,
+                        barPercentage: 0.6,
+                        categoryPercentage: 1.0,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            min: start,
+                            max: end,
+                            grid: { display: false },
+                            ticks: {
+                                callback: val => new Date(val).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                                maxTicksLimit: 5
+                            }
+                        },
+                        y: { display: false }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: () => '',
+                                label: (ctx) => {
+                                    const raw = ctx.raw;
+                                    if (!raw) return '';
+                                    const mins = Math.max(1, Math.round(raw._duration / 60000));
+                                    return `${raw._reason}: ${mins} min`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- MANUAL ENTRY ---
+        window.openManualEntry = () => {
+            const now = new Date();
+
+            // Populate dropdowns
+            dom.manSubject.innerHTML = subjects.map(s => `<option value="${s}">${s}</option>`).join('');
+            dom.manMethod.innerHTML = methods.map(m => `<option value="${m}">${m}</option>`).join('');
+
+            // Defaults
+            dom.manDate.valueAsDate = now;
+            dom.manStart.value = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            // Default end 1 hour later
+            const later = new Date(now.getTime() + 3600000);
+            dom.manEnd.value = later.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            dom.modalManual.classList.remove('hidden');
+        };
+
+        window.saveManualEntry = () => {
+            const dateVal = dom.manDate.value;
+            const startVal = dom.manStart.value;
+            const endVal = dom.manEnd.value;
+            const sub = dom.manSubject.value;
+            const met = dom.manMethod.value;
+            const pauseMins = parseInt(document.getElementById('man-pause').value) || 0;
+
+            if (!dateVal || !startVal || !endVal) return alert("Completa fecha y horas");
+
+            // Construct Dates
+            // Note: input type=time gives "HH:mm"
+            const startTs = new Date(`${dateVal}T${startVal}`).getTime();
+            const endTs = new Date(`${dateVal}T${endVal}`).getTime();
+
+            if (endTs <= startTs) return alert("La hora de fin debe ser posterior al inicio");
+
+            const gross = endTs - startTs;
+            const pauseMs = pauseMins * 60000;
+            const net = gross - pauseMs;
+
+            if (net < 0) return alert("Las pausas exceden la duración total");
+
+            const eff = gross > 0 ? Math.round((net / gross) * 100) : 0;
+
+            const newSession = {
+                id: Date.now(), // Fake ID
+                uid: currentUser ? currentUser.uid : 'guest',
+                subject: sub,
+                method: met,
+                startTime: startTs,
+                endTime: endTs,
+                grossDuration: gross,
+                netDuration: net,
+                efficiency: eff,
+                interruptions: pauseMs > 0 ? [{ start: startTs + (net / 2), end: startTs + (net / 2) + pauseMs, duration: pauseMs, reason: 'Manual' }] : [],
+                createdAt: Date.now()
+            };
+
+            if (currentUser) {
+                alert("Guardado manual en Nube no habilitado aún.");
+            } else {
+                const history = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
+                history.push(newSession);
+                localStorage.setItem('guest_study_history', JSON.stringify(history));
+                dom.modalManual.classList.add('hidden');
                 loadHistory();
+                alert("Sesión agregada.");
             }
         };
 
@@ -940,6 +1500,4 @@
     </script>
 </body>
 
-
 </html>
-
