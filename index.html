@@ -32,6 +32,9 @@
             --acc-red-dark: #db7490;
             --acc-lavender: #dcd3ff;
             --acc-peach: #ffdfba;
+            
+            --btn-secondary: #e6e2d8;
+            --btn-secondary-hover: #d1cbc1;
         }
 
         [data-theme="dark"] {
@@ -50,6 +53,9 @@
             --acc-red-dark: #d55b76;
             --acc-lavender: #5a547a;
             --acc-peach: #7a6349;
+            
+            --btn-secondary: #404040;
+            --btn-secondary-hover: #505050;
         }
 
         [data-theme="white"] {
@@ -68,6 +74,9 @@
             --acc-red-dark: #ef4444;
             --acc-lavender: #e9d5ff;
             --acc-peach: #fed7aa;
+            
+            --btn-secondary: #e2e8f0;
+            --btn-secondary-hover: #cbd5e1;
         }
 
         /* NEW THEMES */
@@ -91,6 +100,9 @@
             --acc-lavender: #5d6e6a;
             --acc-peach: #8a7a5d;
             /* Earth */
+            
+            --btn-secondary: #40524d;
+            --btn-secondary-hover: #4d625c;
         }
 
         [data-theme="ocean"] {
@@ -116,6 +128,9 @@
             /* Indigo */
             --acc-peach: #f59e0b;
             /* Amber */
+            
+            --btn-secondary: #334155;
+            --btn-secondary-hover: #475569;
         }
 
         [data-theme="sunset"] {
@@ -139,6 +154,9 @@
             --acc-lavender: #c084fc;
             --acc-peach: #f97316;
             /* Orange */
+            
+            --btn-secondary: #5a3d5f;
+            --btn-secondary-hover: #6d4a72;
         }
 
         /* UTILITY CLASSES (To replace hardcoded tailwind) */
@@ -187,6 +205,14 @@
 
         .bg-acc-peach {
             background-color: var(--acc-peach);
+        }
+
+        .bg-btn-secondary {
+            background-color: var(--btn-secondary);
+        }
+
+        .bg-btn-secondary:hover {
+            background-color: var(--btn-secondary-hover);
         }
 
         .text-acc-blue-dark {
@@ -357,7 +383,7 @@
                     <button id="btn-login"
                         class="flex-1 bg-acc-blue hover:brightness-90 text-primary font-bold py-3 rounded-lg transition-colors">Entrar</button>
                     <button id="btn-register"
-                        class="flex-1 bg-gray-200 hover:bg-gray-300 text-primary font-bold py-3 rounded-lg transition-colors">Registro</button>
+                        class="flex-1 bg-btn-secondary text-primary font-bold py-3 rounded-lg transition-colors">Registro</button>
                 </div>
                 <button id="btn-guest" class="w-full text-xs text-secondary hover:text-primary py-2">Continuar como
                     Invitado</button>
@@ -400,7 +426,7 @@
 
                 <span id="user-display" class="text-xs text-secondary font-mono hidden md:block">User</span>
                 <button id="btn-logout"
-                    class="text-xs bg-gray-200 hover:bg-red-100 hover:text-red-500 text-primary px-3 py-1.5 rounded transition-colors">Salir</button>
+                    class="text-xs bg-btn-secondary hover:bg-acc-red hover:text-primary text-primary px-3 py-1.5 rounded transition-colors">Salir</button>
             </div>
         </header>
 
@@ -1334,53 +1360,21 @@
         // Helper to get theme colors (Available after DOM is ready)
         const getStyle = (varName) => getComputedStyle(document.body).getPropertyValue(varName).trim();
 
-        // Expose render logic to be recalled on theme switch
-        window.reloadChartsWithTheme = () => {
-            // We need access to the raw data.
-            if (!window.globalSessionCache) return;
-
-            const sessions = window.globalSessionCache;
-
-            // 1. Efficiency
-            let totalEff = 0;
-            sessions.forEach(s => totalEff += (s.efficiency || 0));
-            const avgEff = sessions.length ? Math.round(totalEff / sessions.length) : 0;
-            renderEfficiencyChart(avgEff);
-
-            // 2. Interruptions
-            let reasons = {};
-            sessions.forEach(s => {
-                if (s.interruptions) {
-                    s.interruptions.forEach(i => {
-                        const r = i.reason || 'Otros';
-                        reasons[r] = (reasons[r] || 0) + 1;
-                    });
-                }
-            });
-            const sortedReasons = Object.entries(reasons).sort((a, b) => b[1] - a[1]).slice(0, 3);
-            renderInterruptionChart(sortedReasons);
-
-            // 3. Subjects
-            let subjHours = {};
-            sessions.forEach(s => {
-                subjHours[s.subject] = (subjHours[s.subject] || 0) + (s.grossDuration || 0);
-            });
-            const subjLabels = Object.keys(subjHours);
-            const subjData = subjLabels.map(k => Math.round(subjHours[k] / 360000) / 10); // Hours with 1 decimal
-
-            renderSubjectsChart(subjLabels, subjData);
-        };
-
-        // Hook theme change
+        // Hook theme change to update charts immediately
         const originalSetTheme = window.setTheme;
         window.setTheme = (theme) => {
             document.body.setAttribute('data-theme', theme);
             localStorage.setItem('app_theme', theme);
-            reloadChartsWithTheme();
-        };
-
-        window.updateCharts = () => {
-            if (window.globalSessionCache) reloadChartsWithTheme();
+            // Update charts immediately if dashboard is visible and charts are initialized
+            const dashboardView = document.getElementById('view-dashboard');
+            if (dashboardView && !dashboardView.classList.contains('hidden') && typeof window.updateCharts === 'function') {
+                // Use requestAnimationFrame to ensure CSS variables are updated first
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        window.updateCharts();
+                    });
+                });
+            }
         };
 
         async function loadHistory() {
@@ -1791,8 +1785,7 @@
                     datasets: [{
                         data: [efficiency, 100 - efficiency],
                         backgroundColor: [getStyle('--acc-green'), getStyle('--acc-red')],
-                        borderColor: getStyle('--bg-main'),
-                        borderWidth: 2
+                        borderWidth: 0
                     }]
                 },
                 options: {
