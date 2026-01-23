@@ -15,29 +15,205 @@
 
     <style>
         :root {
-            /* SEPIA / PASTEL THEME */
+            /* THEMES */
             --bg-main: #fcfbf7;
-            /* Very light sepia */
             --bg-card: #ffffff;
-            /* White for cards */
-            --bg-glass: rgba(255, 255, 255, 0.6);
+            --bg-glass: rgba(255, 255, 255, 0.5);
             --text-primary: #5c554b;
-            /* Warm dark grey/brown */
             --text-secondary: #8a8175;
-            /* Lighter warm grey */
             --border-color: #e6e2d8;
 
-            /* Pastel Accents */
+            /* Accents */
             --acc-blue: #a5ccf5;
-            /* Pastel Blue */
             --acc-blue-dark: #74a8db;
-            --acc-pink: #f5a5c0;
-            /* Pastel Pink */
             --acc-green: #a5f5c3;
-            /* Pastel Green */
             --acc-green-dark: #74db9c;
+            --acc-red: #f5a5c0;
+            --acc-red-dark: #db7490;
             --acc-lavender: #dcd3ff;
             --acc-peach: #ffdfba;
+        }
+
+        [data-theme="dark"] {
+            --bg-main: #1a1a1a;
+            --bg-card: #2d2d2d;
+            --bg-glass: rgba(30, 30, 30, 0.7);
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --border-color: #404040;
+
+            --acc-blue: #3d6a91;
+            --acc-blue-dark: #32597c;
+            --acc-green: #378254;
+            --acc-green-dark: #5cb884;
+            --acc-red: #913d50;
+            --acc-red-dark: #d55b76;
+            --acc-lavender: #5a547a;
+            --acc-peach: #7a6349;
+        }
+
+        [data-theme="white"] {
+            --bg-main: #f8f9fa;
+            --bg-card: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.8);
+            --text-primary: #111111;
+            --text-secondary: #555555;
+            --border-color: #e2e8f0;
+
+            --acc-blue: #bfdbfe;
+            --acc-blue-dark: #3b82f6;
+            --acc-green: #bbf7d0;
+            --acc-green-dark: #22c55e;
+            --acc-red: #fecaca;
+            --acc-red-dark: #ef4444;
+            --acc-lavender: #e9d5ff;
+            --acc-peach: #fed7aa;
+        }
+
+        /* NEW THEMES */
+        [data-theme="forest"] {
+            --bg-main: #1c2321;
+            --bg-card: #2d3835;
+            --bg-glass: rgba(45, 56, 53, 0.7);
+            --text-primary: #e3ece9;
+            --text-secondary: #8da49e;
+            --border-color: #40524d;
+
+            --acc-blue: #5d8a82;
+            /* Sage */
+            --acc-blue-dark: #8ab0a9;
+            --acc-green: #3d6e53;
+            /* Moss */
+            --acc-green-dark: #6eb58f;
+            --acc-red: #8f4d4d;
+            /* Rust */
+            --acc-red-dark: #c97575;
+            --acc-lavender: #5d6e6a;
+            --acc-peach: #8a7a5d;
+            /* Earth */
+        }
+
+        [data-theme="ocean"] {
+            --bg-main: #0f172a;
+            /* Slate 900 */
+            --bg-card: #1e293b;
+            /* Slate 800 */
+            --bg-glass: rgba(30, 41, 59, 0.7);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+
+            --acc-blue: #0ea5e9;
+            /* Sky */
+            --acc-blue-dark: #38bdf8;
+            --acc-green: #0d9488;
+            /* Teal */
+            --acc-green-dark: #2dd4bf;
+            --acc-red: #be123c;
+            /* Rose */
+            --acc-red-dark: #fb7185;
+            --acc-lavender: #6366f1;
+            /* Indigo */
+            --acc-peach: #f59e0b;
+            /* Amber */
+        }
+
+        [data-theme="sunset"] {
+            --bg-main: #2a1b2e;
+            /* Deep Purple */
+            --bg-card: #422a45;
+            --bg-glass: rgba(66, 42, 69, 0.7);
+            --text-primary: #fce7f3;
+            --text-secondary: #dcaebf;
+            --border-color: #633e6b;
+
+            --acc-blue: #8b5cf6;
+            /* Violet */
+            --acc-blue-dark: #a78bfa;
+            --acc-green: #ec4899;
+            /* Pink */
+            --acc-green-dark: #f472b6;
+            --acc-red: #f43f5e;
+            /* Rose */
+            --acc-red-dark: #fb7185;
+            --acc-lavender: #c084fc;
+            --acc-peach: #f97316;
+            /* Orange */
+        }
+
+        /* UTILITY CLASSES (To replace hardcoded tailwind) */
+        .bg-main {
+            background-color: var(--bg-main);
+        }
+
+        .bg-card {
+            background-color: var(--bg-card);
+        }
+
+        .bg-glass {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+        }
+
+        .text-primary {
+            color: var(--text-primary);
+        }
+
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+
+        .border-theme {
+            border-color: var(--border-color);
+        }
+
+        /* Accents */
+        .bg-acc-blue {
+            background-color: var(--acc-blue);
+        }
+
+        .bg-acc-green {
+            background-color: var(--acc-green);
+        }
+
+        .bg-acc-red {
+            background-color: var(--acc-red);
+        }
+
+        .bg-acc-lavender {
+            background-color: var(--acc-lavender);
+        }
+
+        .bg-acc-peach {
+            background-color: var(--acc-peach);
+        }
+
+        .text-acc-blue-dark {
+            color: var(--acc-blue-dark);
+        }
+
+        .text-acc-green-dark {
+            color: var(--acc-green-dark);
+        }
+
+        .text-acc-red-dark {
+            color: var(--acc-red-dark);
+        }
+
+        /* Generic Transitions */
+        body,
+        div,
+        span,
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        input,
+        select,
+        button {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
@@ -51,16 +227,15 @@
         }
 
         .glass {
-            background: var(--bg-glass);
-            backdrop-filter: blur(12px);
+            background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            box-shadow: 0 4px 20px -2px rgba(92, 85, 75, 0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .tab-active {
             border-bottom: 3px solid var(--acc-blue-dark);
             color: var(--acc-blue-dark);
-            background-color: rgba(165, 204, 245, 0.1);
+            background-color: var(--bg-card);
         }
 
         .tab-inactive {
@@ -69,19 +244,19 @@
 
         .tab-inactive:hover {
             color: var(--text-primary);
-            background-color: rgba(92, 85, 75, 0.03);
+            background-color: var(--bg-glass);
         }
 
-        /* Input overrides for light theme */
+        /* Input overrides */
         input,
         select {
-            background-color: #ffffff !important;
+            background-color: var(--bg-card) !important;
             border-color: var(--border-color) !important;
             color: var(--text-primary) !important;
         }
 
         input::placeholder {
-            color: #d1cbc1 !important;
+            color: var(--text-secondary) !important;
         }
 
         ::-webkit-scrollbar {
@@ -89,7 +264,7 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #d6d1c7;
+            background: var(--border-color);
             border-radius: 4px;
         }
 
@@ -98,16 +273,13 @@
             display: flex;
             align-items: center;
             padding: 12px;
-            background: #ffffff;
+            background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            transition: all 0.2s;
         }
 
         .manager-item:hover {
-            border-color: var(--acc-blue);
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            border-color: var(--acc-blue-dark);
         }
 
         .manager-item input {
@@ -116,11 +288,48 @@
             font-weight: 500;
             width: 100%;
             outline: none;
+            color: var(--text-primary) !important;
         }
 
         .manager-item input:focus {
             border-bottom: 1px solid var(--acc-blue) !important;
             border-radius: 0 !important;
+        }
+
+        /* CUSTOM MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            transform: scale(0.95);
+            transition: transform 0.2s;
+        }
+
+        .modal-overlay.open .modal-box {
+            transform: scale(1);
         }
     </style>
 </head>
@@ -128,12 +337,12 @@
 <body class="min-h-screen flex flex-col transition-colors duration-300">
 
     <!-- AUTH OVERLAY -->
-    <div id="auth-overlay" class="fixed inset-0 z-50 bg-[#f4f1ea] flex items-center justify-center p-4">
-        <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-[#e6e2d8]">
-            <h1 class="text-3xl font-extrabold text-[#5c554b] mb-2 text-center tracking-tight">
+    <div id="auth-overlay" class="fixed inset-0 z-50 bg-main flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-card p-8 rounded-2xl shadow-xl border border-theme">
+            <h1 class="text-3xl font-extrabold text-primary mb-2 text-center tracking-tight">
                 Focus Analytics
             </h1>
-            <p class="text-[#8a8175] text-center mb-6 text-sm">Estudio consciente y sereno.</p>
+            <p class="text-secondary text-center mb-6 text-sm">Estudio consciente y sereno.</p>
 
             <div id="auth-msg"
                 class="hidden mb-4 p-2 text-center text-xs rounded bg-red-100 text-red-600 border border-red-200">
@@ -141,16 +350,16 @@
 
             <div class="space-y-4">
                 <input type="email" id="auth-email" placeholder="Correo"
-                    class="w-full rounded-lg p-3 outline-none border transition-colors focus:border-[#a5ccf5]">
+                    class="w-full rounded-lg p-3 outline-none border border-theme transition-colors focus:border-[#a5ccf5]">
                 <input type="password" id="auth-pass" placeholder="Contraseña"
-                    class="w-full rounded-lg p-3 outline-none border transition-colors focus:border-[#a5ccf5]">
+                    class="w-full rounded-lg p-3 outline-none border border-theme transition-colors focus:border-[#a5ccf5]">
                 <div class="flex gap-2">
                     <button id="btn-login"
-                        class="flex-1 bg-[#a5ccf5] hover:bg-[#74a8db] text-[#5c554b] font-bold py-3 rounded-lg transition-colors">Entrar</button>
+                        class="flex-1 bg-acc-blue hover:brightness-90 text-primary font-bold py-3 rounded-lg transition-colors">Entrar</button>
                     <button id="btn-register"
-                        class="flex-1 bg-[#e6e2d8] hover:bg-[#d1cbc1] text-[#5c554b] font-bold py-3 rounded-lg transition-colors">Registro</button>
+                        class="flex-1 bg-gray-200 hover:bg-gray-300 text-primary font-bold py-3 rounded-lg transition-colors">Registro</button>
                 </div>
-                <button id="btn-guest" class="w-full text-xs text-[#8a8175] hover:text-[#5c554b] py-2">Continuar como
+                <button id="btn-guest" class="w-full text-xs text-secondary hover:text-primary py-2">Continuar como
                     Invitado</button>
             </div>
         </div>
@@ -161,20 +370,42 @@
 
         <!-- HEADER -->
         <header
-            class="h-16 border-b border-[#e6e2d8] bg-[#fcfbf7]/80 backdrop-blur flex items-center justify-between px-6 sticky top-0 z-40">
+            class="h-16 border-b border-theme bg-main backdrop-blur flex items-center justify-between px-6 sticky top-0 z-40">
             <div class="flex items-center gap-2">
-                <i class="fas fa-feather-alt text-[#74a8db]"></i>
-                <span class="font-bold tracking-tight text-[#5c554b]">FocusAnalytics</span>
+                <img src="logo.png" alt="Logo" class="h-8 w-8 object-contain">
+                <span class="font-bold tracking-tight text-primary">Study Tracker</span>
             </div>
             <div class="flex items-center gap-4">
-                <span id="user-display" class="text-xs text-[#8a8175] font-mono hidden md:block">User</span>
+                <!-- Theme Switcher -->
+                <div class="flex gap-1 bg-white/10 p-1 rounded-lg border border-theme">
+                    <button onclick="setTheme('pastel')"
+                        class="w-6 h-6 rounded bg-[#fcfbf7] border border-gray-300 transform hover:scale-110 transition-transform"
+                        title="Pastel"></button>
+                    <button onclick="setTheme('white')"
+                        class="w-6 h-6 rounded bg-[#ffffff] border border-gray-300 transform hover:scale-110 transition-transform"
+                        title="Blanco"></button>
+                    <button onclick="setTheme('dark')"
+                        class="w-6 h-6 rounded bg-[#2d2d2d] border border-gray-600 transform hover:scale-110 transition-transform"
+                        title="Oscuro"></button>
+                    <button onclick="setTheme('forest')"
+                        class="w-6 h-6 rounded bg-[#1c2321] border border-gray-600 transform hover:scale-110 transition-transform"
+                        title="Bosque"></button>
+                    <button onclick="setTheme('ocean')"
+                        class="w-6 h-6 rounded bg-[#0f172a] border border-gray-600 transform hover:scale-110 transition-transform"
+                        title="Océano"></button>
+                    <button onclick="setTheme('sunset')"
+                        class="w-6 h-6 rounded bg-[#2a1b2e] border border-gray-600 transform hover:scale-110 transition-transform"
+                        title="Atardecer"></button>
+                </div>
+
+                <span id="user-display" class="text-xs text-secondary font-mono hidden md:block">User</span>
                 <button id="btn-logout"
-                    class="text-xs bg-[#e6e2d8] hover:bg-red-100 hover:text-red-500 text-[#5c554b] px-3 py-1.5 rounded transition-colors">Salir</button>
+                    class="text-xs bg-gray-200 hover:bg-red-100 hover:text-red-500 text-primary px-3 py-1.5 rounded transition-colors">Salir</button>
             </div>
         </header>
 
         <!-- TABS -->
-        <nav class="flex justify-center border-b border-[#e6e2d8] bg-[#fcfbf7]/50">
+        <nav class="flex justify-center border-b border-theme bg-main">
             <button onclick="switchTab('tracker')" id="tab-tracker"
                 class="px-6 py-3 text-sm font-bold transition-colors tab-active">Cronómetro</button>
             <button onclick="switchTab('dashboard')" id="tab-dashboard"
@@ -187,46 +418,47 @@
         <main class="flex-grow p-4 md:p-8 max-w-5xl mx-auto w-full relative">
 
             <!-- TRACKER VIEW -->
+            <!-- TRACKER VIEW -->
             <section id="view-tracker" class="fade-in space-y-8">
 
                 <div class="flex justify-end">
-                    <button onclick="toggleSettings()" class="text-[#8a8175] hover:text-[#5c554b]">
+                    <button onclick="toggleSettings()" class="text-secondary hover:text-primary">
                         <i class="fas fa-cog"></i> Config
                     </button>
                 </div>
 
                 <!-- Setup Panel (Only visible if not running) -->
                 <div id="tracker-setup" class="glass p-8 rounded-3xl max-w-lg mx-auto transform transition-all">
-                    <h2 class="text-xl font-bold mb-6 text-[#5c554b] text-center">Configurar Sesión</h2>
+                    <h2 class="text-xl font-bold mb-6 text-primary text-center">Configurar Sesión</h2>
 
                     <div class="space-y-6 mb-8">
                         <div>
                             <div class="flex justify-between items-center mb-2">
-                                <label class="text-xs text-[#8a8175] uppercase font-bold tracking-wider">Materia</label>
+                                <label class="text-xs text-secondary uppercase font-bold tracking-wider">Materia</label>
                                 <button onclick="openManager('Subjects')"
-                                    class="text-xs text-[#74a8db] hover:underline">Gestionar</button>
+                                    class="text-xs text-acc-blue-dark hover:underline">Gestionar</button>
                             </div>
                             <select id="sel-subject"
-                                class="w-full rounded-xl p-3 text-sm shadow-sm outline-none border focus:ring-2 focus:ring-[#a5ccf5]">
+                                class="w-full rounded-xl p-3 text-sm shadow-sm outline-none border border-theme focus:ring-2 focus:ring-blue-300">
                                 <!-- Populated dynamically -->
                             </select>
                         </div>
                         <div>
                             <div class="flex justify-between items-center mb-2">
-                                <label class="text-xs text-[#8a8175] uppercase font-bold tracking-wider">Método</label>
+                                <label class="text-xs text-secondary uppercase font-bold tracking-wider">Método</label>
                                 <button onclick="openManager('Methods')"
-                                    class="text-xs text-[#74a8db] hover:underline">Gestionar</button>
+                                    class="text-xs text-acc-blue-dark hover:underline">Gestionar</button>
                             </div>
                             <select id="sel-method"
-                                class="w-full rounded-xl p-3 text-sm shadow-sm outline-none border focus:ring-2 focus:ring-[#a5ccf5]">
+                                class="w-full rounded-xl p-3 text-sm shadow-sm outline-none border border-theme focus:ring-2 focus:ring-blue-300">
                                 <!-- Populated dynamically -->
                             </select>
                         </div>
                     </div>
 
                     <button onclick="startSession()"
-                        class="w-full bg-[#a5ccf5] hover:bg-[#92bde8] text-[#5c554b] font-bold py-4 rounded-2xl shadow-lg shadow-blue-100 transition-all transform hover:scale-[1.02] border border-[#74a8db]/20">
-                        <i class="fas fa-play mr-2 text-[#5c554b]"></i> INICIAR ESTUDIO
+                        class="w-full bg-acc-blue hover:brightness-95 text-primary font-bold py-4 rounded-2xl shadow-lg transition-all transform hover:scale-[1.02] border border-blue-200">
+                        <i class="fas fa-play mr-2 text-primary"></i> INICIAR ESTUDIO
                     </button>
                 </div>
 
@@ -234,24 +466,24 @@
                 <div id="tracker-active" class="hidden text-center max-w-lg mx-auto">
                     <div class="mb-8">
                         <span id="active-subject"
-                            class="bg-[#dcd3ff] text-[#5c554b] px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">Materia</span>
-                        <div id="active-method" class="text-[#8a8175] text-sm mt-3 font-medium">Método</div>
+                            class="bg-acc-lavender text-primary px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">Materia</span>
+                        <div id="active-method" class="text-secondary text-sm mt-3 font-medium">Método</div>
                     </div>
 
                     <!-- Main Clock (No Spinner) -->
                     <div class="relative py-12 mb-8">
-                        <div id="timer-display" class="text-7xl font-black mono text-[#5c554b] tracking-tighter">00:00
+                        <div id="timer-display" class="text-7xl font-black mono text-primary tracking-tighter">00:00
                         </div>
-                        <div class="text-xs text-[#8a8175] mt-2 uppercase tracking-widest">Tiempo Neto</div>
+                        <div class="text-xs text-secondary mt-2 uppercase tracking-widest">Tiempo total</div>
                     </div>
 
                     <div class="flex justify-center gap-4">
                         <button onclick="pauseSession()"
-                            class="bg-[#ffdfba] hover:bg-[#fccca0] text-[#5c554b] font-bold px-8 py-4 rounded-2xl transition-transform hover:scale-105 shadow-sm">
+                            class="bg-acc-peach hover:brightness-95 text-primary font-bold px-8 py-4 rounded-2xl transition-transform hover:scale-105 shadow-sm">
                             <i class="fas fa-pause mr-2"></i> Pausar
                         </button>
                         <button onclick="stopSession()"
-                            class="bg-[#e6e2d8] hover:bg-[#f5a5c0] hover:text-[#5c554b] text-[#5c554b] font-bold px-8 py-4 rounded-2xl transition-colors shadow-sm">
+                            class="bg-card border-2 border-theme hover:bg-acc-red hover:border-acc-red hover:text-white text-primary font-bold px-8 py-4 rounded-2xl transition-colors shadow-sm">
                             <i class="fas fa-stop mr-2"></i> Terminar
                         </button>
                     </div>
@@ -264,18 +496,28 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Stat Card -->
                     <div class="glass p-6 rounded-3xl">
-                        <h3 class="text-[#8a8175] text-xs font-bold uppercase mb-4">Eficiencia Global</h3>
-                        <div class="h-48 relative">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-secondary text-xs font-bold uppercase">Eficiencia Global</h3>
+                            <select id="filter-efficiency" onchange="updateCharts()"
+                                class="text-xs p-1 rounded border border-theme">
+                                <option value="all">Todo</option>
+                                <option value="today">Hoy</option>
+                                <option value="week">Semana</option>
+                            </select>
+                        </div>
+
+                        <div class="h-48 relative flex items-center justify-center">
                             <canvas id="chart-efficiency"></canvas>
                             <div id="efficiency-number"
-                                class="absolute inset-0 flex items-center justify-center text-4xl font-bold text-[#5c554b]">
+                                class="absolute inset-0 flex items-center justify-center text-4xl font-bold text-primary"
+                                style="text-align: center; pointer-events: none;">
                                 --%</div>
                         </div>
                     </div>
 
-                    <!-- Interruption Reasons (NEW) -->
+                    <!-- Interruption Reasons -->
                     <div class="glass p-6 rounded-3xl">
-                        <h3 class="text-[#8a8175] text-xs font-bold uppercase mb-4">Interrupciones Comunes</h3>
+                        <h3 class="text-secondary text-xs font-bold uppercase mb-4">Interrupciones Comunes</h3>
                         <div class="h-48">
                             <canvas id="chart-interruptions"></canvas>
                         </div>
@@ -283,7 +525,7 @@
 
                     <!-- Hours Chart -->
                     <div class="glass p-6 rounded-3xl md:col-span-2">
-                        <h3 class="text-[#8a8175] text-xs font-bold uppercase mb-4">Tiempo por Materia</h3>
+                        <h3 class="text-secondary text-xs font-bold uppercase mb-4">Tiempo por Materia</h3>
                         <div class="h-64">
                             <canvas id="chart-subjects"></canvas>
                         </div>
@@ -296,15 +538,15 @@
             <section id="view-history" class="hidden fade-in">
                 <div class="flex justify-end mb-4">
                     <button onclick="openManualEntry()"
-                        class="bg-[#a5ccf5] hover:bg-[#74a8db] text-[#5c554b] px-4 py-2 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
+                        class="bg-acc-blue hover:brightness-95 text-primary px-4 py-2 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
                         <i class="fas fa-plus"></i> Agregar Sesión
                     </button>
                 </div>
 
                 <div class="glass rounded-3xl overflow-hidden shadow-sm">
                     <div class="glass rounded-3xl overflow-hidden shadow-sm">
-                        <table class="w-full text-left text-sm text-[#5c554b]">
-                            <thead class="bg-[#f0ece4] uppercase text-xs font-bold text-[#8a8175]">
+                        <table class="w-full text-left text-sm text-primary">
+                            <thead class="bg-main uppercase text-xs font-bold text-secondary border-b border-theme">
                                 <tr>
                                     <th class="p-5">Fecha</th>
                                     <th class="p-5">Materia</th>
@@ -312,7 +554,7 @@
                                     <th class="p-5 text-right">Efic.</th>
                                 </tr>
                             </thead>
-                            <tbody id="history-list" class="divide-y divide-[#e6e2d8]">
+                            <tbody id="history-list" class="divide-y-0">
                                 <!-- Injected JS -->
                             </tbody>
                         </table>
@@ -321,35 +563,46 @@
         </main>
     </div>
 
+    <!-- GENERIC MODAL (Replaces alerts) -->
+    <div id="modal-generic" class="modal-overlay">
+        <div class="modal-box text-center">
+            <h3 id="modal-title" class="text-xl font-bold mb-2 text-primary">Titulo</h3>
+            <p id="modal-msg" class="text-sm text-secondary mb-6">Mensaje...</p>
+            <div class="flex justify-center gap-3" id="modal-actions">
+                <!-- Buttons injected by JS -->
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL: PAUSE REASON -->
     <div id="modal-pause"
-        class="fixed inset-0 z-50 bg-[#5c554b]/40 flex items-center justify-center hidden backdrop-blur-sm">
-        <div class="bg-white p-6 rounded-3xl max-w-sm w-full mx-4 shadow-2xl">
-            <h3 class="text-xl font-bold text-[#5c554b] mb-2 text-center">Registrar Interrupción</h3>
-            <p class="text-xs text-[#8a8175] mb-6 text-center">¿Cuál fue el motivo?</p>
+        class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center hidden backdrop-blur-sm">
+        <div class="bg-card p-6 rounded-3xl max-w-sm w-full mx-4 shadow-2xl border border-theme">
+            <h3 class="text-xl font-bold text-primary mb-2 text-center">Registrar Interrupción</h3>
+            <p class="text-xs text-secondary mb-6 text-center">¿Cuál fue el motivo?</p>
 
             <div class="grid grid-cols-2 gap-3 mb-4">
                 <button onclick="confirmPause('Descanso')"
-                    class="p-4 rounded-xl bg-[#f0ece4] hover:bg-[#a5ccf5] text-[#5c554b] text-sm font-bold transition-colors">
+                    class="p-4 rounded-xl bg-main hover:bg-acc-blue text-primary text-sm font-bold transition-colors">
                     ☕ Descanso
                 </button>
                 <button onclick="confirmPause('Celular')"
-                    class="p-4 rounded-xl bg-[#f0ece4] hover:bg-[#f5a5c0] text-[#5c554b] text-sm font-bold transition-colors">
+                    class="p-4 rounded-xl bg-main hover:bg-acc-red text-primary text-sm font-bold transition-colors">
                     📱 Celular
                 </button>
                 <button onclick="confirmPause('Llamada')"
-                    class="p-4 rounded-xl bg-[#f0ece4] hover:bg-[#a5f5c3] text-[#5c554b] text-sm font-bold transition-colors">
+                    class="p-4 rounded-xl bg-main hover:bg-acc-green text-primary text-sm font-bold transition-colors">
                     📞 Llamada
                 </button>
                 <button onclick="customPauseReason()"
-                    class="p-4 rounded-xl bg-[#f0ece4] hover:bg-[#dcd3ff] text-[#5c554b] text-sm font-bold transition-colors">
+                    class="p-4 rounded-xl bg-main hover:bg-acc-lavender text-primary text-sm font-bold transition-colors">
                     ✏️ Otro...
                 </button>
             </div>
 
             <div class="text-center mt-6">
                 <button onclick="resumeSession()"
-                    class="text-[#8a8175] hover:text-[#5c554b] text-xs font-bold uppercase tracking-wide">
+                    class="text-secondary hover:text-primary text-xs font-bold uppercase tracking-wide">
                     Cancelar
                 </button>
             </div>
@@ -357,27 +610,26 @@
     </div>
 
     <!-- PAUSED OVERLAY -->
-    <div id="overlay-paused"
-        class="fixed inset-0 z-40 bg-[#fcfbf7]/95 flex flex-col items-center justify-center hidden">
-        <div class="text-6xl mb-6 animate-pulse text-[#5c554b]">⏸️</div>
-        <h2 class="text-4xl font-black text-[#5c554b] mb-2 tracking-tight">PAUSA</h2>
-        <p class="text-[#8a8175] text-xl mb-10" id="pause-reason-display">...</p>
+    <div id="overlay-paused" class="fixed inset-0 z-40 bg-main/95 flex flex-col items-center justify-center hidden">
+        <div class="text-6xl mb-6 animate-pulse text-primary">⏸️</div>
+        <h2 class="text-4xl font-black text-primary mb-2 tracking-tight">PAUSA</h2>
+        <p class="text-secondary text-xl mb-10" id="pause-reason-display">...</p>
         <button onclick="resumeSession()"
-            class="bg-[#a5f5c3] hover:bg-[#91e8b2] text-[#5c554b] font-bold px-12 py-5 rounded-full text-xl shadow-lg transition-transform hover:scale-105">
+            class="bg-acc-green hover:brightness-95 text-primary font-bold px-12 py-5 rounded-full text-xl shadow-lg transition-transform hover:scale-105">
             REANUDAR
         </button>
     </div>
 
     <!-- MODAL: SETTINGS -->
     <div id="modal-settings"
-        class="fixed inset-0 z-50 bg-[#5c554b]/40 flex items-center justify-center hidden backdrop-blur-sm">
-        <div class="bg-white p-8 rounded-3xl max-w-sm w-full mx-4 shadow-xl">
-            <h3 class="text-xl font-bold text-[#5c554b] mb-6">Configuraciones</h3>
+        class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center hidden backdrop-blur-sm">
+        <div class="bg-card p-8 rounded-3xl max-w-sm w-full mx-4 shadow-xl border border-theme">
+            <h3 class="text-xl font-bold text-primary mb-6">Configuraciones</h3>
 
             <div class="flex items-center justify-between mb-6">
-                <span class="text-[#5c554b] font-medium">Mostrar Segundos</span>
+                <span class="text-primary font-medium">Mostrar Segundos</span>
                 <button id="btn-toggle-seconds" onclick="toggleSecondsOption()"
-                    class="w-12 h-6 bg-[#d1cbc1] rounded-full relative transition-colors duration-300">
+                    class="w-12 h-6 bg-gray-300 rounded-full relative transition-colors duration-300">
                     <div class="w-4 h-4 bg-white rounded-full absolute top-1 left-1 transition-transform duration-300">
                     </div>
                 </button>
@@ -385,21 +637,21 @@
 
             <div class="flex justify-end">
                 <button onclick="document.getElementById('modal-settings').classList.add('hidden')"
-                    class="bg-[#e6e2d8] text-[#5c554b] px-4 py-2 rounded-lg font-bold">Cerrar</button>
+                    class="bg-gray-200 text-primary px-4 py-2 rounded-lg font-bold">Cerrar</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL: MANAGER (Subjects / Methods) -->
     <div id="modal-manager"
-        class="fixed inset-0 z-[60] bg-[#5c554b]/50 flex items-center justify-center hidden backdrop-blur-sm">
+        class="fixed inset-0 z-[60] bg-black/50 flex items-center justify-center hidden backdrop-blur-sm">
         <div
-            class="bg-[#fcfbf7] rounded-3xl w-full max-w-md mx-4 shadow-2xl overflow-hidden flex flex-col max-h-[80vh]">
+            class="bg-main rounded-3xl w-full max-w-md mx-4 shadow-2xl overflow-hidden flex flex-col max-h-[80vh] border border-theme">
 
             <!-- Header -->
-            <div class="p-6 border-b border-[#e6e2d8] flex justify-between items-center bg-white/50 backdrop-blur">
-                <h3 id="manager-title" class="text-lg font-bold text-[#5c554b]">Gestionar</h3>
-                <button onclick="closeManager()" class="text-[#8a8175] hover:text-[#5c554b] transition-colors">
+            <div class="p-6 border-b border-theme flex justify-between items-center bg-card/50 backdrop-blur">
+                <h3 id="manager-title" class="text-lg font-bold text-primary">Gestionar</h3>
+                <button onclick="closeManager()" class="text-secondary hover:text-primary transition-colors">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
@@ -410,9 +662,9 @@
             </div>
 
             <!-- Footer (Add) -->
-            <div class="p-4 border-t border-[#e6e2d8] bg-white/50 backdrop-blur">
+            <div class="p-4 border-t border-theme bg-card/50 backdrop-blur">
                 <button onclick="addManagerItem()"
-                    class="w-full py-3 rounded-xl border-2 border-dashed border-[#a5ccf5] text-[#74a8db] hover:bg-[#a5ccf5]/10 hover:border-[#74a8db] font-bold transition-all flex items-center justify-center gap-2">
+                    class="w-full py-3 rounded-xl border-2 border-dashed border-theme text-acc-blue-dark hover:bg-gray-100 font-bold transition-all flex items-center justify-center gap-2">
                     <i class="fas fa-plus"></i> Agregar Nuevo
                 </button>
             </div>
@@ -422,72 +674,75 @@
 
     <!-- MODAL: SESSION DETAILS -->
     <div id="modal-detail"
-        class="fixed inset-0 z-[70] bg-[#5c554b]/60 flex items-center justify-center hidden backdrop-blur-sm">
+        class="fixed inset-0 z-[70] bg-black/60 flex items-center justify-center hidden backdrop-blur-sm">
         <div
-            class="bg-[#fcfbf7] rounded-3xl w-full max-w-2xl mx-4 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            class="bg-main rounded-3xl w-full max-w-4xl mx-4 shadow-2xl overflow-hidden flex flex-col min-h-[80vh] max-h-[90vh] border border-theme">
 
             <!-- Header -->
-            <div class="p-6 border-b border-[#e6e2d8] flex justify-between items-center bg-white/50">
+            <div class="p-6 border-b border-theme flex justify-between items-center bg-card/50">
                 <div>
-                    <h3 class="text-xl font-bold text-[#5c554b]">Detalle de Sesión</h3>
-                    <p id="detail-date" class="text-xs text-[#8a8175] font-mono mt-1">...</p>
+                    <h3 class="text-xl font-bold text-primary">Detalle de Sesión</h3>
+                    <p id="detail-date" class="text-xs text-secondary font-mono mt-1">...</p>
                 </div>
-                <button onclick="closeDetail()" class="text-[#8a8175] hover:text-[#5c554b] p-2">
+                <button onclick="closeDetail()" class="text-secondary hover:text-primary p-2">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
 
             <!-- Content -->
-            <div class="p-8 overflow-y-auto">
+            <div class="p-8 overflow-y-auto flex-1">
 
                 <!-- Info Grid -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-white p-4 rounded-2xl border border-[#e6e2d8]">
-                        <div class="text-xs text-[#8a8175] uppercase font-bold">Tiempo Neto</div>
-                        <div id="detail-net" class="text-xl font-black text-[#5c554b] mt-1">--</div>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+                    <div class="bg-card p-4 rounded-2xl border border-theme">
+                        <div class="text-xs text-secondary uppercase font-bold">Tiempo Neto</div>
+                        <div id="detail-net" class="text-xl font-black text-primary mt-1">--</div>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl border border-[#e6e2d8]">
-                        <div class="text-xs text-[#8a8175] uppercase font-bold">Total</div>
-                        <div id="detail-gross" class="text-xl font-black text-[#5c554b] mt-1">--</div>
+                    <div class="bg-card p-4 rounded-2xl border border-theme">
+                        <div class="text-xs text-secondary uppercase font-bold">Total</div>
+                        <div id="detail-gross" class="text-xl font-black text-primary mt-1">--</div>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl border border-[#e6e2d8]">
-                        <div class="text-xs text-[#8a8175] uppercase font-bold">Pausas <span id="detail-pause-time"
-                                class="text-[10px] font-normal text-gray-400 ml-1"></span></div>
-                        <div id="detail-pauses" class="text-xl font-black text-[#5c554b] mt-1">--</div>
+                    <div class="bg-card p-4 rounded-2xl border border-theme">
+                        <div class="text-xs text-secondary uppercase font-bold">Tiempo Pausa</div>
+                        <div id="detail-pause-display" class="text-xl font-black text-primary mt-1">--</div>
                     </div>
-                    <div class="bg-white p-4 rounded-2xl border border-[#e6e2d8]">
-                        <div class="text-xs text-[#8a8175] uppercase font-bold">Eficiencia</div>
-                        <div id="detail-efficiency" class="text-xl font-black text-[#5c554b] mt-1">--%</div>
+                    <div class="bg-card p-4 rounded-2xl border border-theme">
+                        <div class="text-xs text-secondary uppercase font-bold">Cant. Pausas</div>
+                        <div id="detail-pause-count" class="text-xl font-black text-primary mt-1">--</div>
+                    </div>
+                    <div class="bg-card p-4 rounded-2xl border border-theme">
+                        <div class="text-xs text-secondary uppercase font-bold">Eficiencia</div>
+                        <div id="detail-efficiency" class="text-xl font-black text-primary mt-1">--%</div>
                     </div>
                 </div>
 
                 <!-- Editable Fields -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <div>
-                        <label class="text-xs text-[#8a8175] uppercase font-bold mb-2 block">Materia</label>
+                        <label class="text-xs text-secondary uppercase font-bold mb-2 block">Materia</label>
                         <select id="detail-subject" disabled
-                            class="w-full p-3 rounded-xl border border-[#e6e2d8] bg-transparent text-[#5c554b] font-bold outline-none focus:border-[#a5ccf5] disabled:opacity-70 disabled:bg-gray-50/50">
+                            class="w-full p-3 rounded-xl border border-theme bg-transparent text-primary font-bold outline-none focus:border-blue-400 disabled:opacity-70 disabled:bg-gray-50/50">
                         </select>
                     </div>
                     <div>
-                        <label class="text-xs text-[#8a8175] uppercase font-bold mb-2 block">Método</label>
+                        <label class="text-xs text-secondary uppercase font-bold mb-2 block">Método</label>
                         <select id="detail-method" disabled
-                            class="w-full p-3 rounded-xl border border-[#e6e2d8] bg-transparent text-[#5c554b] font-bold outline-none focus:border-[#a5ccf5] disabled:opacity-70 disabled:bg-gray-50/50">
+                            class="w-full p-3 rounded-xl border border-theme bg-transparent text-primary font-bold outline-none focus:border-blue-400 disabled:opacity-70 disabled:bg-gray-50/50">
                         </select>
                     </div>
                 </div>
 
                 <!-- Timeline Chart -->
                 <div class="mb-4">
-                    <h4 class="text-sm font-bold text-[#5c554b] mb-4">Línea de Tiempo</h4>
-                    <div class="h-32 bg-white rounded-2xl border border-[#e6e2d8] p-4 relative">
+                    <h4 class="text-sm font-bold text-primary mb-4">Línea de Tiempo</h4>
+                    <div class="h-32 bg-card rounded-2xl border border-theme p-4 relative">
                         <canvas id="chart-timeline"></canvas>
                     </div>
                 </div>
             </div>
 
             <!-- Footer Actions -->
-            <div class="p-6 border-t border-[#e6e2d8] bg-white/50 flex justify-between">
+            <div class="p-6 border-t border-theme bg-card/50 flex justify-between">
                 <button onclick="promptDeleteSession()"
                     class="text-red-400 hover:text-red-600 font-bold text-sm px-4 py-2 hover:bg-red-50 rounded-lg transition-colors">
                     <i class="fas fa-trash mr-2"></i> Eliminar
@@ -495,11 +750,11 @@
 
                 <div class="flex gap-3">
                     <button id="btn-edit-session" onclick="toggleEditSession()"
-                        class="text-[#74a8db] hover:bg-blue-50 px-6 py-2 rounded-xl font-bold transition-colors">
+                        class="text-acc-blue-dark hover:bg-blue-50 px-6 py-2 rounded-xl font-bold transition-colors">
                         Editar
                     </button>
                     <button id="btn-save-session" onclick="saveSessionChanges()"
-                        class="hidden bg-[#a5ccf5] hover:bg-[#74a8db] text-[#5c554b] px-6 py-2 rounded-xl font-bold transition-colors shadow-sm">
+                        class="hidden bg-acc-blue hover:brightness-95 text-primary px-6 py-2 rounded-xl font-bold transition-colors shadow-sm">
                         Guardar
                     </button>
                 </div>
@@ -509,52 +764,52 @@
 
     <!-- MODAL: MANUAL ENTRY -->
     <div id="modal-manual"
-        class="fixed inset-0 z-[70] bg-[#5c554b]/60 flex items-center justify-center hidden backdrop-blur-sm">
-        <div class="bg-white p-8 rounded-3xl w-full max-w-md mx-4 shadow-2xl">
-            <h3 class="text-xl font-bold text-[#5c554b] mb-6">Agregar Sesión Manual</h3>
+        class="fixed inset-0 z-[70] bg-black/60 flex items-center justify-center hidden backdrop-blur-sm">
+        <div class="bg-card p-8 rounded-3xl w-full max-w-md mx-4 shadow-2xl border border-theme">
+            <h3 class="text-xl font-bold text-primary mb-6">Agregar Sesión Manual</h3>
 
             <div class="space-y-4 mb-8">
                 <div>
-                    <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Fecha</label>
+                    <label class="block text-xs text-secondary uppercase font-bold mb-1">Fecha</label>
                     <input type="date" id="man-date"
-                        class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]">
+                        class="w-full p-3 rounded-xl border border-theme outline-none focus:border-blue-400">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Inicio</label>
+                        <label class="block text-xs text-secondary uppercase font-bold mb-1">Inicio</label>
                         <input type="time" id="man-start"
-                            class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]">
+                            class="w-full p-3 rounded-xl border border-theme outline-none focus:border-blue-400">
                     </div>
                     <div>
-                        <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Fin</label>
+                        <label class="block text-xs text-secondary uppercase font-bold mb-1">Fin</label>
                         <input type="time" id="man-end"
-                            class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]">
+                            class="w-full p-3 rounded-xl border border-theme outline-none focus:border-blue-400">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Materia</label>
+                        <label class="block text-xs text-secondary uppercase font-bold mb-1">Materia</label>
                         <select id="man-subject"
-                            class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]"></select>
+                            class="w-full p-3 rounded-xl border border-theme outline-none focus:border-blue-400"></select>
                     </div>
                     <div>
-                        <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Método</label>
+                        <label class="block text-xs text-secondary uppercase font-bold mb-1">Método</label>
                         <select id="man-method"
-                            class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]"></select>
+                            class="w-full p-3 rounded-xl border border-theme outline-none focus:border-blue-400"></select>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs text-[#8a8175] uppercase font-bold mb-1">Minutos de Pausa (Op.)</label>
+                    <label class="block text-xs text-secondary uppercase font-bold mb-1">Minutos de Pausa (Op.)</label>
                     <input type="number" id="man-pause" min="0" value="0"
-                        class="w-full p-3 rounded-xl border outline-none focus:border-[#a5ccf5]">
+                        class="w-full p-3 rounded-xl border border-theme outline-none focus:border-blue-400">
                 </div>
             </div>
 
             <div class="flex gap-3">
                 <button onclick="document.getElementById('modal-manual').classList.add('hidden')"
-                    class="flex-1 text-[#8a8175] font-bold hover:bg-gray-100 py-3 rounded-xl">Cancelar</button>
+                    class="flex-1 text-secondary font-bold hover:bg-gray-100 py-3 rounded-xl">Cancelar</button>
                 <button onclick="saveManualEntry()"
-                    class="flex-1 bg-[#a5f5c3] hover:bg-[#74db9c] text-[#5c554b] font-bold py-3 rounded-xl shadow-sm">Guardar</button>
+                    class="flex-1 bg-acc-green hover:brightness-95 text-primary font-bold py-3 rounded-xl shadow-sm">Guardar</button>
             </div>
         </div>
     </div>
@@ -580,6 +835,48 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+
+        // --- THEME ---
+        window.setTheme = (themeName) => {
+            document.body.setAttribute('data-theme', themeName);
+            localStorage.setItem('app_theme', themeName);
+        };
+        // Init Theme
+        const savedTheme = localStorage.getItem('app_theme') || 'pastel';
+        setTheme(savedTheme);
+
+        // --- CUSTOM MODAL ---
+        window.showModal = (title, msg, onConfirm, showCancel = true) => {
+            const overlay = document.getElementById('modal-generic');
+            const tEl = document.getElementById('modal-title');
+            const mEl = document.getElementById('modal-msg');
+            const actEl = document.getElementById('modal-actions');
+
+            tEl.textContent = title;
+            mEl.textContent = msg;
+            actEl.innerHTML = '';
+
+            if (showCancel) {
+                const btnCancel = document.createElement('button');
+                btnCancel.textContent = 'Cancelar';
+                btnCancel.className = 'px-4 py-2 rounded-lg text-sm font-bold text-[#8a8175] hover:bg-gray-100 transition-colors';
+                btnCancel.onclick = () => overlay.classList.remove('open');
+                actEl.appendChild(btnCancel);
+            }
+
+            const btnConfirm = document.createElement('button');
+            btnConfirm.textContent = 'Aceptar';
+            btnConfirm.className = 'px-6 py-2 rounded-lg text-sm font-bold bg-[#a5ccf5] text-[#5c554b] hover:bg-[#74a8db] transition-colors';
+            btnConfirm.onclick = () => {
+                overlay.classList.remove('open');
+                if (onConfirm) onConfirm();
+            };
+            actEl.appendChild(btnConfirm);
+
+            overlay.classList.add('open');
+        };
+
+        window.showAlert = (msg) => showModal('Información', msg, null, false);
 
         // --- STATE ---
         let currentUser = null;
@@ -720,14 +1017,14 @@
                 el.className = 'manager-item';
                 el.innerHTML = `
                     <input type="text" value="${item}" readonly 
-                        class="text-[#5c554b] text-sm bg-transparent"
+                        class="text-primary text-sm bg-transparent"
                         id="man-input-${index}">
                     
                     <div class="flex items-center gap-2 ml-2">
-                        <button onclick="enableEdit(${index})" class="w-8 h-8 rounded-full hover:bg-blue-50 text-blue-400 flex items-center justify-center transition-colors">
+                        <button onclick="enableEdit(${index})" class="w-8 h-8 rounded-full hover:bg-blue-50 text-acc-blue-dark flex items-center justify-center transition-colors">
                             <i id="icon-edit-${index}" class="fas fa-pencil-alt text-xs"></i>
                         </button>
-                        <button onclick="deleteItem(${index})" class="w-8 h-8 rounded-full hover:bg-red-50 text-red-400 flex items-center justify-center transition-colors">
+                        <button onclick="deleteItem(${index})" class="w-8 h-8 rounded-full hover:bg-red-50 text-red-500 flex items-center justify-center transition-colors">
                             <i class="fas fa-trash-alt text-xs"></i>
                         </button>
                     </div>
@@ -791,7 +1088,7 @@
                 if (listData[index] === "Nuevo Elemento") {
                     deleteItem(index);
                 } else {
-                    alert("El nombre no puede estar vacío.");
+                    showAlert("El nombre no puede estar vacío.");
                 }
             }
         };
@@ -800,11 +1097,11 @@
             const listData = currentManagerType === 'Subjects' ? subjects : methods;
             const storageKey = currentManagerType === 'Subjects' ? 'study_subjects' : 'study_methods';
 
-            if (confirm("¿Estás seguro de eliminar este elemento?")) {
+            showModal("Confirmar", "¿Estás seguro de eliminar este elemento?", () => {
                 listData.splice(index, 1);
                 saveManagerList(listData, storageKey);
                 renderManagerList();
-            }
+            });
         };
 
         function saveManagerList(data, key) {
@@ -819,7 +1116,7 @@
             const subject = dom.selSubject.value;
             const method = dom.selMethod.value;
 
-            if (!subject) return alert("Por favor asigna o selecciona una materia");
+            if (!subject) return showAlert("Por favor asigna o selecciona una materia");
 
             activeSession = {
                 uid: currentUser ? currentUser.uid : 'guest',
@@ -988,10 +1285,10 @@
             if (currentUser) {
                 try {
                     await addDoc(collection(db, 'study_sessions'), sessionData);
-                    alert(`¡Sesión guardada en Nube!\nEficiencia: ${efficiency}%`);
+                    showAlert(`¡Sesión guardada en Nube!\nEficiencia: ${efficiency}%`);
                 } catch (e) {
                     console.error(e);
-                    alert("Error al guardar en la nube. Verifica tu conexión.");
+                    showAlert("Error al guardar en la nube. Verifica tu conexión.");
                 }
             } else {
                 // Guest Save (LocalStorage)
@@ -999,11 +1296,11 @@
                     const guestHistory = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
                     guestHistory.push(sessionData);
                     localStorage.setItem('guest_study_history', JSON.stringify(guestHistory));
-                    alert(`¡Sesión guardada (Local)!\nEficiencia: ${efficiency}%`);
+                    showAlert(`¡Sesión guardada (Local)!\nEficiencia: ${efficiency}%`);
                     loadHistory();
                 } catch (e) {
                     console.error(e);
-                    alert("Error guardando localmente.");
+                    showAlert("Error guardando localmente.");
                 }
             }
         };
@@ -1033,6 +1330,58 @@
 
         // --- DASHBOARD & DATA ---
         let charts = {};
+
+        // Helper to get theme colors (Available after DOM is ready)
+        const getStyle = (varName) => getComputedStyle(document.body).getPropertyValue(varName).trim();
+
+        // Expose render logic to be recalled on theme switch
+        window.reloadChartsWithTheme = () => {
+            // We need access to the raw data.
+            if (!window.globalSessionCache) return;
+
+            const sessions = window.globalSessionCache;
+
+            // 1. Efficiency
+            let totalEff = 0;
+            sessions.forEach(s => totalEff += (s.efficiency || 0));
+            const avgEff = sessions.length ? Math.round(totalEff / sessions.length) : 0;
+            renderEfficiencyChart(avgEff);
+
+            // 2. Interruptions
+            let reasons = {};
+            sessions.forEach(s => {
+                if (s.interruptions) {
+                    s.interruptions.forEach(i => {
+                        const r = i.reason || 'Otros';
+                        reasons[r] = (reasons[r] || 0) + 1;
+                    });
+                }
+            });
+            const sortedReasons = Object.entries(reasons).sort((a, b) => b[1] - a[1]).slice(0, 3);
+            renderInterruptionChart(sortedReasons);
+
+            // 3. Subjects
+            let subjHours = {};
+            sessions.forEach(s => {
+                subjHours[s.subject] = (subjHours[s.subject] || 0) + (s.grossDuration || 0);
+            });
+            const subjLabels = Object.keys(subjHours);
+            const subjData = subjLabels.map(k => Math.round(subjHours[k] / 360000) / 10); // Hours with 1 decimal
+
+            renderSubjectsChart(subjLabels, subjData);
+        };
+
+        // Hook theme change
+        const originalSetTheme = window.setTheme;
+        window.setTheme = (theme) => {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('app_theme', theme);
+            reloadChartsWithTheme();
+        };
+
+        window.updateCharts = () => {
+            if (window.globalSessionCache) reloadChartsWithTheme();
+        };
 
         async function loadHistory() {
             dom.historyList.innerHTML = '<tr><td colspan="5" class="p-8 text-center italic">Cargando...</td></tr>';
@@ -1069,7 +1418,7 @@
             dataArray.sort((a, b) => b.createdAt - a.createdAt);
 
             if (dataArray.length === 0) {
-                dom.historyList.innerHTML = '<tr><td colspan="5" class="p-8 text-center italic text-[#8a8175]">No hay sesiones registradas aún.</td></tr>';
+                dom.historyList.innerHTML = '<tr><td colspan="5" class="p-8 text-center italic text-secondary">No hay sesiones registradas aún.</td></tr>';
                 window.chartData = null;
                 updateCharts();
                 return;
@@ -1077,11 +1426,6 @@
 
             const list = dom.historyList;
             list.innerHTML = '';
-
-            let totalNet = 0;
-            let totalGross = 0;
-            let subjectMap = {};
-            let interruptionMap = {};
 
             dataArray.forEach(data => {
                 const dateStr = new Date(data.startTime).toLocaleDateString();
@@ -1091,39 +1435,18 @@
                 const itemId = data.id;
 
                 const row = `
-                    <tr onclick="openSessionDetails('${itemId}')" class="cursor-pointer hover:bg-[#fcfbf7] transition-all border-b border-[#e6e2d8] last:border-0 group">
-                        <td class="p-5 text-[#5c554b] group-hover:pl-6 transition-all duration-300">
+                    <tr onclick="openSessionDetails('${itemId}')" class="cursor-pointer hover:brightness-95 transition-all border-b border-theme last:border-0 group bg-card">
+                        <td class="p-5 text-primary group-hover:pl-6 transition-all duration-300">
                              <div class="font-bold">${dateStr}</div>
-                             <div class="text-[10px] text-[#8a8175]">${new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                             <div class="text-[10px] text-secondary">${new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                         </td>
-                        <td class="p-5"><span class="bg-[#dcd3ff] text-[#5c554b] px-2 py-1 rounded text-xs font-bold uppercase">${data.subject}</span></td>
-                        <td class="p-5 font-mono text-[#8a8175]">${minutes} min</td>
-                        <td class="p-5 text-right ${data.efficiency < 50 ? 'text-red-400' : 'text-[#74db9c]'} font-bold text-lg">${data.efficiency}%</td>
+                        <td class="p-5"><span class="bg-acc-lavender text-primary px-2 py-1 rounded text-xs font-bold uppercase">${data.subject}</span></td>
+                        <td class="p-5 font-mono text-secondary">${minutes} min</td>
+                        <td class="p-5 text-right ${data.efficiency < 50 ? 'text-acc-red-dark' : 'text-acc-green-dark'} font-bold text-lg">${data.efficiency}%</td>
                     </tr>
                 `;
                 list.innerHTML += row;
-
-                // Aggregations
-                totalNet += data.netDuration;
-                totalGross += data.grossDuration;
-
-                if (!subjectMap[data.subject]) subjectMap[data.subject] = 0;
-                subjectMap[data.subject] += data.netDuration;
-
-                if (data.interruptions) {
-                    data.interruptions.forEach(int => {
-                        const r = int.reason || "Otros";
-                        if (!interruptionMap[r]) interruptionMap[r] = 0;
-                        interruptionMap[r]++;
-                    });
-                }
             });
-
-            window.chartData = {
-                efficiency: totalGross > 0 ? Math.round((totalNet / totalGross) * 100) : 0,
-                subjects: subjectMap,
-                interruptions: interruptionMap
-            };
 
             updateCharts();
         }
@@ -1154,10 +1477,12 @@
 
             // Pauses
             const pauseList = session.interruptions || [];
-            dom.detailPauses.textContent = pauseList.length;
             const totalPauseMs = pauseList.reduce((acc, p) => acc + (p.duration || 0), 0);
             const totalPauseMins = Math.floor(totalPauseMs / 60000);
-            dom.detailPauseTime.textContent = totalPauseMins > 0 ? `(${totalPauseMins}m)` : '';
+
+            // Populate New Pause Stat
+            document.getElementById('detail-pause-display').textContent = totalPauseMins + " min";
+            document.getElementById('detail-pause-count').textContent = pauseList.length;
 
             dom.detailEfficiency.textContent = (session.efficiency || 0) + '%';
 
@@ -1217,10 +1542,10 @@
                         method: newMet
                     });
                     disableEditSession();
-                    alert("¡Guardado en Nube!");
+                    showAlert("¡Guardado en Nube!");
                 } catch (e) {
                     console.error(e);
-                    alert("Error al actualizar: " + e.message);
+                    showAlert("Error al actualizar: " + e.message);
                 }
             } else {
                 const history = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
@@ -1231,21 +1556,21 @@
                     localStorage.setItem('guest_study_history', JSON.stringify(history));
                     loadHistory(); // Reload table
                     disableEditSession();
-                    alert("Guardado.",);
+                    showAlert("Guardado.");
                 }
             }
         };
 
         window.promptDeleteSession = async () => {
-            if (confirm("¿Eliminar esta sesión permanentemente?")) {
+            showModal("Confirmar Eliminación", "¿Eliminar esta sesión permanentemente?", async () => {
                 if (currentUser) {
                     try {
                         await deleteDoc(doc(db, "study_sessions", currentDetailId));
                         dom.modalDetail.classList.add('hidden');
-                        alert("Sesión eliminada de la nube.");
+                        showAlert("Sesión eliminada de la nube.");
                     } catch (e) {
                         console.error(e);
-                        alert("Error al eliminar: " + e.message);
+                        showAlert("Error al eliminar: " + e.message);
                     }
                 } else {
                     let history = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
@@ -1253,9 +1578,9 @@
                     localStorage.setItem('guest_study_history', JSON.stringify(history));
                     dom.modalDetail.classList.add('hidden');
                     loadHistory();
-                    alert("Sesión eliminada.");
+                    showAlert("Sesión eliminada.");
                 }
-            }
+            });
         };
 
         // --- TIMELINE CHART (FIXED) ---
@@ -1296,7 +1621,7 @@
                 _duration: s.end - s.start
             }));
 
-            const bgColors = segments.map(s => s.type === 'Study' ? '#a5f5c3' : '#f5a5c0');
+            const bgColors = segments.map(s => s.type === 'Study' ? getStyle('--acc-green') : getStyle('--acc-red'));
 
             timelineChartInstance = new Chart(ctx, {
                 type: 'bar',
@@ -1372,20 +1697,19 @@
             const met = dom.manMethod.value;
             const pauseMins = parseInt(document.getElementById('man-pause').value) || 0;
 
-            if (!dateVal || !startVal || !endVal) return alert("Completa fecha y horas");
+            if (!dateVal || !startVal || !endVal) return showAlert("Completa fecha y horas");
 
             // Construct Dates
-            // Note: input type=time gives "HH:mm"
             const startTs = new Date(`${dateVal}T${startVal}`).getTime();
             const endTs = new Date(`${dateVal}T${endVal}`).getTime();
 
-            if (endTs <= startTs) return alert("La hora de fin debe ser posterior al inicio");
+            if (endTs <= startTs) return showAlert("La hora de fin debe ser posterior al inicio");
 
             const gross = endTs - startTs;
             const pauseMs = pauseMins * 60000;
             const net = gross - pauseMs;
 
-            if (net < 0) return alert("Las pausas exceden la duración total");
+            if (net < 0) return showAlert("Las pausas exceden la duración total");
 
             const eff = gross > 0 ? Math.round((net / gross) * 100) : 0;
 
@@ -1404,44 +1728,86 @@
             };
 
             if (currentUser) {
-                alert("Guardado manual en Nube no habilitado aún.");
+                showAlert("Guardado manual en Nube no habilitado aún.");
             } else {
                 const history = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
                 history.push(newSession);
                 localStorage.setItem('guest_study_history', JSON.stringify(history));
                 dom.modalManual.classList.add('hidden');
                 loadHistory();
-                alert("Sesión agregada.");
+                showAlert("Sesión agregada.");
             }
         };
 
 
-        function updateCharts() {
-            if (!window.chartData) return;
+        window.updateCharts = () => {
+            if (!window.globalSessionCache) return;
 
-            // Efficiency Doughnut
+            // Filter Logic
+            const filter = document.getElementById('filter-efficiency').value;
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            let filteredData = window.globalSessionCache.filter(session => {
+                if (filter === 'all') return true;
+                if (filter === 'today') return (now - session.startTime) < oneDay;
+                if (filter === 'week') return (now - session.startTime) < (7 * oneDay);
+                return true;
+            });
+
+            // Re-calculate aggregations for charts
+            let totalNet = 0;
+            let totalGross = 0;
+            let subjectMap = {};
+            let interruptionMap = {};
+
+            filteredData.forEach(data => {
+                totalNet += (data.netDuration || 0);
+                totalGross += (data.grossDuration || 0);
+
+                if (!subjectMap[data.subject]) subjectMap[data.subject] = 0;
+                subjectMap[data.subject] += (data.netDuration || 0);
+
+                if (data.interruptions) {
+                    data.interruptions.forEach(int => {
+                        const r = int.reason || "Otros";
+                        if (!interruptionMap[r]) interruptionMap[r] = 0;
+                        interruptionMap[r]++;
+                    });
+                }
+            });
+
+            const efficiency = totalGross > 0 ? Math.round((totalNet / totalGross) * 100) : 0;
+
+            // EFFICIENCY DOUGHNUT
             const ctxEff = document.getElementById('chart-efficiency').getContext('2d');
             if (charts.eff) charts.eff.destroy();
-            document.getElementById('efficiency-number').textContent = window.chartData.efficiency + '%';
+            document.getElementById('efficiency-number').textContent = efficiency + '%';
 
             charts.eff = new Chart(ctxEff, {
                 type: 'doughnut',
                 data: {
                     labels: ['Productivo', 'Interrupciones'],
                     datasets: [{
-                        data: [window.chartData.efficiency, 100 - window.chartData.efficiency],
-                        backgroundColor: ['#a5f5c3', '#f5a5c0'], // Green / Red (Pastel)
-                        borderWidth: 0
+                        data: [efficiency, 100 - efficiency],
+                        backgroundColor: [getStyle('--acc-green'), getStyle('--acc-red')],
+                        borderColor: getStyle('--bg-main'),
+                        borderWidth: 2
                     }]
                 },
-                options: { cutout: '80%', responsive: true, plugins: { legend: { display: false } } }
+                options: {
+                    cutout: '80%',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } }
+                }
             });
 
-            // Subjects Bar Chart
+            // SUBJECTS BAR CHART
             const ctxSub = document.getElementById('chart-subjects').getContext('2d');
             if (charts.sub) charts.sub.destroy();
-            const subs = Object.keys(window.chartData.subjects);
-            const mins = Object.values(window.chartData.subjects).map(m => Math.floor(m / 60000));
+            const subs = Object.keys(subjectMap);
+            const mins = Object.values(subjectMap).map(m => Math.floor(m / 60000));
 
             charts.sub = new Chart(ctxSub, {
                 type: 'bar',
@@ -1450,7 +1816,7 @@
                     datasets: [{
                         label: 'Minutos',
                         data: mins,
-                        backgroundColor: '#a5ccf5',
+                        backgroundColor: getStyle('--acc-blue'),
                         borderRadius: 6
                     }]
                 },
@@ -1458,19 +1824,24 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: { beginAtZero: true, grid: { color: '#e6e2d8' }, ticks: { color: '#8a8175' } },
-                        x: { grid: { display: false }, ticks: { color: '#8a8175' } }
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: getStyle('--border-color') },
+                            ticks: { color: getStyle('--text-secondary') }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: getStyle('--text-secondary') }
+                        }
                     },
                     plugins: { legend: { display: false } }
                 }
             });
 
-            // Interruptions Bar Chart (NEW)
+            // INTERRUPTIONS BAR CHART
             const ctxInt = document.getElementById('chart-interruptions').getContext('2d');
             if (charts.int) charts.int.destroy();
-
-            // Sort interruptions by frequency
-            const intEntries = Object.entries(window.chartData.interruptions).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            const intEntries = Object.entries(interruptionMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
 
             charts.int = new Chart(ctxInt, {
                 type: 'bar',
@@ -1479,22 +1850,29 @@
                     datasets: [{
                         label: 'Cantidad',
                         data: intEntries.map(e => e[1]),
-                        backgroundColor: '#ffdfba',
+                        backgroundColor: getStyle('--acc-peach'),
                         borderRadius: 6
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    indexAxis: 'y', // Horizontal bars
+                    indexAxis: 'y',
                     scales: {
-                        x: { beginAtZero: true, grid: { color: '#e6e2d8' }, ticks: { stepSize: 1, color: '#8a8175' } },
-                        y: { grid: { display: false }, ticks: { color: '#5c554b', font: { weight: 'bold' } } }
+                        x: {
+                            beginAtZero: true,
+                            grid: { color: getStyle('--border-color') },
+                            ticks: { stepSize: 1, color: getStyle('--text-secondary') }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: getStyle('--text-primary'), font: { weight: 'bold' } }
+                        }
                     },
                     plugins: { legend: { display: false } }
                 }
             });
-        }
+        };
 
 
     </script>
