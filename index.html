@@ -32,7 +32,7 @@
             --acc-red-dark: #db7490;
             --acc-lavender: #dcd3ff;
             --acc-peach: #ffdfba;
-            
+
             --btn-secondary: #e6e2d8;
             --btn-secondary-hover: #d1cbc1;
         }
@@ -53,7 +53,7 @@
             --acc-red-dark: #db7490;
             --acc-lavender: #dcd3ff;
             --acc-peach: #ffdfba;
-            
+
             --btn-secondary: #e6e2d8;
             --btn-secondary-hover: #d1cbc1;
         }
@@ -74,7 +74,7 @@
             --acc-red-dark: #d55b76;
             --acc-lavender: #5a547a;
             --acc-peach: #7a6349;
-            
+
             --btn-secondary: #404040;
             --btn-secondary-hover: #505050;
         }
@@ -95,7 +95,7 @@
             --acc-red-dark: #ef4444;
             --acc-lavender: #e9d5ff;
             --acc-peach: #fed7aa;
-            
+
             --btn-secondary: #e2e8f0;
             --btn-secondary-hover: #cbd5e1;
         }
@@ -121,7 +121,7 @@
             --acc-lavender: #5d6e6a;
             --acc-peach: #8a7a5d;
             /* Earth */
-            
+
             --btn-secondary: #40524d;
             --btn-secondary-hover: #4d625c;
         }
@@ -149,7 +149,7 @@
             /* Indigo */
             --acc-peach: #f59e0b;
             /* Amber */
-            
+
             --btn-secondary: #334155;
             --btn-secondary-hover: #475569;
         }
@@ -175,7 +175,7 @@
             --acc-lavender: #c084fc;
             --acc-peach: #f97316;
             /* Orange */
-            
+
             --btn-secondary: #5a3d5f;
             --btn-secondary-hover: #6d4a72;
         }
@@ -196,7 +196,7 @@
             --acc-red-dark: #f87171;
             --acc-lavender: #c4b5fd;
             --acc-peach: #fed7aa;
-            
+
             --btn-secondary: #bbf7d0;
             --btn-secondary-hover: #86efac;
         }
@@ -217,7 +217,7 @@
             --acc-red-dark: #fb7185;
             --acc-lavender: #f5d0fe;
             --acc-peach: #fed7aa;
-            
+
             --btn-secondary: #fecdd3;
             --btn-secondary-hover: #fda4af;
         }
@@ -238,7 +238,7 @@
             --acc-red-dark: #f87171;
             --acc-lavender: #e9d5ff;
             --acc-peach: #fcd34d;
-            
+
             --btn-secondary: #fde68a;
             --btn-secondary-hover: #fcd34d;
         }
@@ -259,7 +259,7 @@
             --acc-red-dark: #f87171;
             --acc-lavender: #8b5cf6;
             --acc-peach: #f59e0b;
-            
+
             --btn-secondary: #292524;
             --btn-secondary-hover: #3f3a37;
         }
@@ -280,7 +280,7 @@
             --acc-red-dark: #fb7185;
             --acc-lavender: #8b5cf6;
             --acc-peach: #f59e0b;
-            
+
             --btn-secondary: #047857;
             --btn-secondary-hover: #059669;
         }
@@ -301,7 +301,7 @@
             --acc-red-dark: #fb7185;
             --acc-lavender: #c4b5fd;
             --acc-peach: #fed7aa;
-            
+
             --btn-secondary: #e9d5ff;
             --btn-secondary-hover: #ddd6fe;
         }
@@ -322,7 +322,7 @@
             --acc-red-dark: #f87171;
             --acc-lavender: #8b5cf6;
             --acc-peach: #d97706;
-            
+
             --btn-secondary: #57534e;
             --btn-secondary-hover: #78716c;
         }
@@ -795,7 +795,8 @@
     <!-- MODAL: SETTINGS -->
     <div id="modal-settings"
         class="fixed inset-0 z-50 bg-black/40 flex items-center justify-center hidden backdrop-blur-sm">
-        <div class="bg-card p-8 rounded-3xl max-w-2xl w-full mx-4 shadow-xl border border-theme max-h-[90vh] overflow-y-auto">
+        <div
+            class="bg-card p-8 rounded-3xl max-w-2xl w-full mx-4 shadow-xl border border-theme max-h-[90vh] overflow-y-auto">
             <h3 class="text-xl font-bold text-primary mb-6">Configuraciones</h3>
 
             <div class="flex items-center justify-between mb-8">
@@ -899,7 +900,6 @@
             <div class="p-6 border-b border-theme flex justify-between items-center bg-card/50">
                 <div>
                     <h3 class="text-xl font-bold text-primary">Detalle de Sesión</h3>
-                    <p id="detail-date" class="text-xs text-secondary font-mono mt-1">...</p>
                 </div>
                 <button onclick="closeDetail()" class="text-secondary hover:text-primary p-2">
                     <i class="fas fa-times text-xl"></i>
@@ -909,27 +909,69 @@
             <!-- Content -->
             <div class="p-8 overflow-y-auto flex-1">
 
-                <!-- Info Grid -->
+                <!-- Info Grid (View Only - Updates on Edit) -->
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-                    <div class="bg-card p-4 rounded-2xl border border-theme">
+                    <!-- NET TIME -->
+                    <div class="bg-card p-4 rounded-2xl border border-theme relative group">
                         <div class="text-xs text-secondary uppercase font-bold">Tiempo Neto</div>
+                        <!-- Display -->
                         <div id="detail-net" class="text-xl font-black text-primary mt-1">--</div>
+                        <!-- Edit Input (Hidden default) -->
+                        <div id="detail-net-edit-wrapper" class="hidden mt-1">
+                            <input type="number" id="detail-net-edit" min="0" placeholder="Min"
+                                class="w-full bg-transparent border-b-2 border-acc-blue text-xl font-bold text-primary outline-none p-0">
+                            <span class="text-xs text-secondary">minutos</span>
+                        </div>
                     </div>
+
+                    <!-- GROSS TIME (Calc only) -->
                     <div class="bg-card p-4 rounded-2xl border border-theme">
                         <div class="text-xs text-secondary uppercase font-bold">Total</div>
                         <div id="detail-gross" class="text-xl font-black text-primary mt-1">--</div>
                     </div>
+
+                    <!-- PAUSE TIME -->
                     <div class="bg-card p-4 rounded-2xl border border-theme">
                         <div class="text-xs text-secondary uppercase font-bold">Tiempo Pausa</div>
+                        <!-- Display -->
                         <div id="detail-pause-display" class="text-xl font-black text-primary mt-1">--</div>
+                        <!-- Edit Input -->
+                        <div id="detail-pause-edit-wrapper" class="hidden mt-1">
+                            <input type="number" id="detail-pause-edit" min="0" placeholder="Min"
+                                class="w-full bg-transparent border-b-2 border-acc-blue text-xl font-bold text-primary outline-none p-0">
+                            <span class="text-xs text-secondary">minutos</span>
+                        </div>
                     </div>
+
+                    <!-- PAUSE COUNT -->
                     <div class="bg-card p-4 rounded-2xl border border-theme">
                         <div class="text-xs text-secondary uppercase font-bold">Cant. Pausas</div>
                         <div id="detail-pause-count" class="text-xl font-black text-primary mt-1">--</div>
                     </div>
+
+                    <!-- EFFICIENCY -->
                     <div class="bg-card p-4 rounded-2xl border border-theme">
                         <div class="text-xs text-secondary uppercase font-bold">Eficiencia</div>
                         <div id="detail-efficiency" class="text-xl font-black text-primary mt-1">--%</div>
+                    </div>
+                </div>
+
+                <!-- Editable Time Fields -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label class="text-xs text-secondary uppercase font-bold mb-2 block">Fecha</label>
+                        <input type="date" id="detail-date-edit" disabled
+                            class="w-full p-3 rounded-xl border border-theme bg-transparent text-primary font-bold outline-none focus:border-blue-400 disabled:opacity-70 disabled:bg-gray-50/50">
+                    </div>
+                    <div>
+                        <label class="text-xs text-secondary uppercase font-bold mb-2 block">Inicio</label>
+                        <input type="time" id="detail-start-edit" disabled
+                            class="w-full p-3 rounded-xl border border-theme bg-transparent text-primary font-bold outline-none focus:border-blue-400 disabled:opacity-70 disabled:bg-gray-50/50">
+                    </div>
+                    <div>
+                        <label class="text-xs text-secondary uppercase font-bold mb-2 block">Fin</label>
+                        <input type="time" id="detail-end-edit" disabled
+                            class="w-full p-3 rounded-xl border border-theme bg-transparent text-primary font-bold outline-none focus:border-blue-400 disabled:opacity-70 disabled:bg-gray-50/50">
                     </div>
                 </div>
 
@@ -1002,6 +1044,11 @@
                         <input type="time" id="man-end"
                             class="w-full p-3 rounded-xl border border-theme outline-none focus:border-blue-400">
                     </div>
+                </div>
+                <div>
+                    <label class="block text-xs text-secondary uppercase font-bold mb-1">Duración (min)</label>
+                    <input type="number" id="man-duration" placeholder="Calculado auto..."
+                        class="w-full p-3 rounded-xl border border-theme outline-none focus:border-blue-400">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -1146,7 +1193,18 @@
             // Manual DOM
             modalManual: document.getElementById('modal-manual'),
             manSubject: document.getElementById('man-subject'),
-            manMethod: document.getElementById('man-method')
+            manMethod: document.getElementById('man-method'),
+            manDate: document.getElementById('man-date'),
+            manStart: document.getElementById('man-start'),
+            manEnd: document.getElementById('man-end'),
+            manDuration: document.getElementById('man-duration'),
+
+            // Detail Edit Inputs
+            detailDateEdit: document.getElementById('detail-date-edit'),
+            detailStartEdit: document.getElementById('detail-start-edit'),
+            detailEndEdit: document.getElementById('detail-end-edit'),
+            detailNetEdit: document.getElementById('detail-net-edit'),
+            detailPauseEdit: document.getElementById('detail-pause-edit')
         };
 
         // --- AUTH ---
@@ -1685,7 +1743,6 @@
             currentDetailId = id;
 
             // Populate Stats
-            dom.detailDate.textContent = new Date(session.startTime).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             dom.detailNet.textContent = formatTime(session.netDuration || 0);
             dom.detailGross.textContent = formatTime(session.grossDuration || 0);
 
@@ -1711,6 +1768,25 @@
             dom.detailMethod.innerHTML = currentMetList.map(m => `<option value="${m}">${m}</option>`).join('');
             dom.detailMethod.value = session.method;
 
+            // Populate Time Inputs
+            const sDate = new Date(session.startTime);
+            const eDate = new Date(session.endTime);
+
+            // Date Input (YYYY-MM-DD)
+            const yyyy = sDate.getFullYear();
+            const mm = String(sDate.getMonth() + 1).padStart(2, '0');
+            const dd = String(sDate.getDate()).padStart(2, '0');
+            dom.detailDateEdit.value = `${yyyy}-${mm}-${dd}`;
+
+            // Time Inputs (HH:MM)
+            dom.detailStartEdit.value = sDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+            dom.detailEndEdit.value = eDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+            // Advanced Inputs
+            const netMins = Math.floor((session.netDuration || 0) / 60000);
+            dom.detailNetEdit.value = netMins;
+            dom.detailPauseEdit.value = totalPauseMins;
+
             // Reset UI state (FORCE DISABLED)
             disableEditSession();
 
@@ -1726,9 +1802,19 @@
         function disableEditSession() {
             dom.detailSubject.disabled = true;
             dom.detailMethod.disabled = true;
+            dom.detailDateEdit.disabled = true;
+            dom.detailStartEdit.disabled = true;
+            dom.detailEndEdit.disabled = true;
+
             // Styles to ensure it looks disabled
-            dom.detailSubject.classList.add('opacity-70', 'bg-gray-50');
-            dom.detailMethod.classList.add('opacity-70', 'bg-gray-50');
+            const inputs = [dom.detailSubject, dom.detailMethod, dom.detailDateEdit, dom.detailStartEdit, dom.detailEndEdit, dom.detailNetEdit, dom.detailPauseEdit];
+            inputs.forEach(el => el.classList.add('opacity-70', 'bg-gray-50'));
+
+            // Swap Edit Inputs -> Display
+            document.getElementById('detail-net-edit-wrapper').classList.add('hidden');
+            document.getElementById('detail-net').classList.remove('hidden');
+            document.getElementById('detail-pause-edit-wrapper').classList.add('hidden');
+            document.getElementById('detail-pause-display').classList.remove('hidden');
 
             document.getElementById('btn-edit-session').classList.remove('hidden');
             document.getElementById('btn-save-session').classList.add('hidden');
@@ -1737,26 +1823,148 @@
         window.toggleEditSession = () => {
             dom.detailSubject.disabled = false;
             dom.detailMethod.disabled = false;
-            dom.detailSubject.classList.remove('opacity-70', 'bg-gray-50');
-            dom.detailMethod.classList.remove('opacity-70', 'bg-gray-50');
+            dom.detailDateEdit.disabled = false;
+            dom.detailStartEdit.disabled = false;
+            dom.detailEndEdit.disabled = false;
+
+            const inputs = [dom.detailSubject, dom.detailMethod, dom.detailDateEdit, dom.detailStartEdit, dom.detailEndEdit, dom.detailNetEdit, dom.detailPauseEdit];
+            inputs.forEach(el => el.classList.remove('opacity-70', 'bg-gray-50'));
+
+            // Swap Display -> Edit Inputs
+            document.getElementById('detail-net-edit-wrapper').classList.remove('hidden');
+            document.getElementById('detail-net').classList.add('hidden');
+            document.getElementById('detail-pause-edit-wrapper').classList.remove('hidden');
+            document.getElementById('detail-pause-display').classList.add('hidden');
 
             document.getElementById('btn-edit-session').classList.add('hidden');
             document.getElementById('btn-save-session').classList.remove('hidden');
+
+            // Add Smart Calculation Listeners
+            setupSmartEditing();
         };
+
+
+
+        function setupSmartEditing() {
+            const getTs = (timeStr) => {
+                if (!timeStr) return 0;
+                const [h, m] = timeStr.split(':').map(Number);
+                const d = new Date(dom.detailDateEdit.value + 'T00:00:00');
+                d.setHours(h, m, 0, 0);
+                return d.getTime();
+            };
+
+            const formatTs = (ts) => {
+                return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+            };
+
+            const inputs = {
+                start: dom.detailStartEdit,
+                end: dom.detailEndEdit,
+                net: dom.detailNetEdit,
+                pause: dom.detailPauseEdit
+            };
+
+            const handleTimeChange = () => {
+                const s = getTs(inputs.start.value);
+                const e = getTs(inputs.end.value);
+                if (e > s && s > 0 && e > 0) {
+                    const grossMs = e - s;
+                    const pauseMs = (parseInt(inputs.pause.value) || 0) * 60000;
+                    const netMs = Math.max(0, grossMs - pauseMs);
+                    inputs.net.value = Math.floor(netMs / 60000);
+                }
+            };
+
+            inputs.start.onchange = handleTimeChange;
+            inputs.end.onchange = handleTimeChange;
+
+            inputs.net.onchange = () => {
+                const s = getTs(inputs.start.value);
+                if (s > 0) {
+                    const netMs = (parseInt(inputs.net.value) || 0) * 60000;
+                    const pauseMs = (parseInt(inputs.pause.value) || 0) * 60000;
+                    const grossMs = netMs + pauseMs;
+                    const newEndTs = s + grossMs;
+                    inputs.end.value = formatTs(newEndTs);
+                }
+            };
+
+            inputs.pause.onchange = () => {
+                // Keep Start & End constant, update Net
+                handleTimeChange();
+            };
+        }
 
         window.saveSessionChanges = async () => {
             const newSub = dom.detailSubject.value;
             const newMet = dom.detailMethod.value;
 
+            // New Time Values
+            const dateVal = dom.detailDateEdit.value;
+            const startVal = dom.detailStartEdit.value;
+            const endVal = dom.detailEndEdit.value;
+
+            if (!dateVal || !startVal || !endVal) return showAlert("Completa todos los campos de fecha y hora.");
+
+            // Helpers for Time calc
+            const startTs = new Date(`${dateVal}T${startVal}`).getTime();
+            const endTs = new Date(`${dateVal}T${endVal}`).getTime();
+
+            if (endTs <= startTs) return showAlert("La hora de fin debe ser posterior al inicio.");
+
+            const newGross = endTs - startTs;
+
+            // Recalculate Net with existing interruptions
+            // Note: Since we are shifting time, we should ideally shift interruptions too, 
+            // but for simplicity we will just preserve the TOTAL pause duration.
+            // Shifting absolute timestamps of interruptions is complex if start time changes drastically.
+            // We'll keep it simple: Net = Gross - TotalPauses.
+
+            // Get current session data to find pauses
+            let currentSession = null;
+            if (currentUser) {
+                currentSession = window.globalSessionCache.find(s => s.id === currentDetailId);
+            } else {
+                const history = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
+                currentSession = history.find(s => s.id == currentDetailId);
+            }
+
+            // Recalculate based on INPUTS (Smart Edit)
+            const newPauseMins = parseInt(dom.detailPauseEdit.value) || 0;
+            const newPauseMs = newPauseMins * 60000;
+            const finalNetMs = Math.max(0, newGross - newPauseMs);
+
+            if (finalNetMs < 0) return showAlert("La duración de las pausas excede la duración total.");
+
+            const newEff = newGross > 0 ? Math.round((finalNetMs / newGross) * 100) : 0;
+
+            const updateData = {
+                subject: newSub,
+                method: newMet,
+                startTime: startTs,
+                endTime: endTs,
+                grossDuration: newGross,
+                netDuration: finalNetMs,
+                efficiency: newEff,
+                interruptions: newPauseMs > 0 ? [{
+                    start: startTs + (finalNetMs / 2),
+                    end: startTs + (finalNetMs / 2) + newPauseMs,
+                    duration: newPauseMs,
+                    reason: "Editado Manualmente"
+                }] : []
+            };
+
             if (currentUser) {
                 try {
                     const docRef = doc(db, "study_sessions", currentDetailId);
-                    await updateDoc(docRef, {
-                        subject: newSub,
-                        method: newMet
-                    });
+                    await updateDoc(docRef, updateData);
                     disableEditSession();
                     showAlert("¡Guardado en Nube!");
+                    // Close modal to refresh or let listener update? 
+                    // Listener updates the list, but not the open modal live unless we handle it.
+                    // Easiest is to close detail.
+                    dom.modalDetail.classList.add('hidden');
                 } catch (e) {
                     console.error(e);
                     showAlert("Error al actualizar: " + e.message);
@@ -1765,11 +1973,12 @@
                 const history = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
                 const idx = history.findIndex(s => s.id == currentDetailId);
                 if (idx > -1) {
-                    history[idx].subject = newSub;
-                    history[idx].method = newMet;
+                    // Merge
+                    history[idx] = { ...history[idx], ...updateData };
                     localStorage.setItem('guest_study_history', JSON.stringify(history));
                     loadHistory(); // Reload table
                     disableEditSession();
+                    dom.modalDetail.classList.add('hidden');
                     showAlert("Guardado.");
                 }
             }
@@ -1901,34 +2110,146 @@
             dom.manEnd.value = later.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
             dom.modalManual.classList.remove('hidden');
+
+            // Init Smart Logic once
+            if (!window.manualLogicInited) {
+                setupManualSmartLogic();
+                window.manualLogicInited = true;
+            }
+
+            // Trigger calculation to sync Duration input with default Start/End
+            dom.manStart.dispatchEvent(new Event('change'));
         };
 
-        window.saveManualEntry = () => {
+        function setupManualSmartLogic() {
+            const inputs = {
+                d: dom.manDate,
+                s: dom.manStart,
+                e: dom.manEnd,
+                dur: dom.manDuration,
+                p: document.getElementById('man-pause')
+            };
+
+            const getTs = (timeStr) => {
+                if (!timeStr) return 0;
+                const [h, m] = timeStr.split(':').map(Number);
+                const date = new Date(inputs.d.valueAsDate || new Date());
+                date.setHours(h, m, 0, 0);
+                return date.getTime();
+            };
+
+            const formatTime = (ts) => {
+                return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+            };
+
+            // 1. Change Start -> Update End (Move Block) or Calc Duration (Resize)
+            inputs.s.onchange = () => {
+                const s = getTs(inputs.s.value);
+                const durVal = parseInt(inputs.dur.value) || 0;
+                const pVal = parseInt(inputs.p.value) || 0;
+
+                if (durVal > 0) {
+                    // Move: Start + Duration -> End
+                    const grossMs = (durVal + pVal) * 60000;
+                    inputs.e.value = formatTime(s + grossMs);
+                } else if (inputs.e.value) {
+                    // Resize: End - Start -> Duration
+                    const e = getTs(inputs.e.value);
+                    if (e > s) {
+                        const grossMs = e - s;
+                        inputs.dur.value = Math.max(0, Math.floor(grossMs / 60000) - pVal);
+                    }
+                }
+            };
+
+            // 2. Change End -> Calc Duration (Resize) or Calc Start (Move Backwards)
+            inputs.e.onchange = () => {
+                const s = getTs(inputs.s.value);
+                const e = getTs(inputs.e.value);
+                const durVal = parseInt(inputs.dur.value) || 0;
+                const pVal = parseInt(inputs.p.value) || 0;
+
+                if (s && e && e > s) {
+                    // Start + End -> Calc Duration (Resize)
+                    const grossMs = e - s;
+                    inputs.dur.value = Math.max(0, Math.floor(grossMs / 60000) - pVal);
+                } else if (durVal > 0 && e) {
+                    // Duration + End -> Calc Start (Move Backwards)
+                    const grossMs = (durVal + pVal) * 60000;
+                    inputs.s.value = formatTime(e - grossMs);
+                }
+            };
+
+            // 3. Change Duration -> Update End (Extend) or Start (Backwards)
+            inputs.dur.oninput = () => {
+                const durVal = parseInt(inputs.dur.value);
+                if (!durVal && durVal !== 0) return;
+
+                const pVal = parseInt(inputs.p.value) || 0;
+                const grossMs = (durVal + pVal) * 60000;
+
+                if (inputs.s.value) {
+                    const s = getTs(inputs.s.value);
+                    inputs.e.value = formatTime(s + grossMs);
+                } else if (inputs.e.value) {
+                    const e = getTs(inputs.e.value);
+                    inputs.s.value = formatTime(e - grossMs);
+                }
+            };
+
+            // 4. Change Pause -> Update End (Extend)
+            inputs.p.oninput = () => {
+                const s = getTs(inputs.s.value);
+                if (s) {
+                    const d = parseInt(inputs.dur.value) || 0;
+                    const p = parseInt(inputs.p.value) || 0;
+                    const grossMs = (d + p) * 60000;
+                    inputs.e.value = formatTime(s + grossMs);
+                }
+            };
+        }
+
+        window.saveManualEntry = async () => {
             const dateVal = dom.manDate.value;
             const startVal = dom.manStart.value;
             const endVal = dom.manEnd.value;
+            const durVal = parseInt(dom.manDuration.value) || 0;
             const sub = dom.manSubject.value;
             const met = dom.manMethod.value;
             const pauseMins = parseInt(document.getElementById('man-pause').value) || 0;
 
-            if (!dateVal || !startVal || !endVal) return showAlert("Completa fecha y horas");
+            if (!dateVal) return showAlert("Por favor selecciona una fecha");
 
-            // Construct Dates
-            const startTs = new Date(`${dateVal}T${startVal}`).getTime();
-            const endTs = new Date(`${dateVal}T${endVal}`).getTime();
-
-            if (endTs <= startTs) return showAlert("La hora de fin debe ser posterior al inicio");
-
-            const gross = endTs - startTs;
+            let startTs, endTs, gross, net;
             const pauseMs = pauseMins * 60000;
-            const net = gross - pauseMs;
+
+            // Logic: Compute Times
+            if (startVal && endVal) {
+                // Strict Start/End
+                startTs = new Date(`${dateVal}T${startVal}`).getTime();
+                endTs = new Date(`${dateVal}T${endVal}`).getTime();
+                if (endTs <= startTs) return showAlert("La hora de fin debe ser posterior al inicio");
+
+                gross = endTs - startTs;
+                net = gross - pauseMs;
+            } else if (durVal > 0) {
+                // Flexible: Duration Driven
+                // If start is provided, use it, otherwise default to 12:00
+                const baseTime = startVal || "12:00";
+                startTs = new Date(`${dateVal}T${baseTime}`).getTime();
+
+                net = durVal * 60000;
+                gross = net + pauseMs;
+                endTs = startTs + gross;
+            } else {
+                return showAlert("Completa hora de inicio/fin o la duración total");
+            }
 
             if (net < 0) return showAlert("Las pausas exceden la duración total");
 
             const eff = gross > 0 ? Math.round((net / gross) * 100) : 0;
 
             const newSession = {
-                id: Date.now(), // Fake ID
                 uid: currentUser ? currentUser.uid : 'guest',
                 subject: sub,
                 method: met,
@@ -1942,8 +2263,17 @@
             };
 
             if (currentUser) {
-                showAlert("Guardado manual en Nube no habilitado aún.");
+                try {
+                    await addDoc(collection(db, 'study_sessions'), newSession);
+                    dom.modalManual.classList.add('hidden');
+                    showAlert("Sesión guardada en Nube.");
+                } catch (e) {
+                    console.error(e);
+                    showAlert("Error al guardar en nube: " + e.message);
+                }
             } else {
+                // Guest needs ID
+                newSession.id = Date.now();
                 const history = JSON.parse(localStorage.getItem('guest_study_history') || '[]');
                 history.push(newSession);
                 localStorage.setItem('guest_study_history', JSON.stringify(history));
