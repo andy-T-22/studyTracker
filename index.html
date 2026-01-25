@@ -665,17 +665,53 @@
 
             <!-- DASHBOARD VIEW -->
             <section id="view-dashboard" class="hidden fade-in space-y-6">
+
+                <!-- GLOBAL FILTERS -->
+                <div class="flex flex-col gap-4 bg-card p-4 rounded-2xl border border-theme shadow-sm">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <h2 class="text-lg font-bold text-primary">Panel de Análisis</h2>
+                        <div class="flex items-center gap-2">
+                            <!-- Subject Filter -->
+                            <select id="dash-filter-subject" onchange="updateCharts()"
+                                class="p-2 rounded-lg text-sm border border-theme outline-none focus:ring-2 focus:ring-blue-300">
+                                <option value="all">Todas las Materias</option>
+                            </select>
+
+                            <!-- Quick Period Filter -->
+                            <select id="dash-filter-period" onchange="toggleDashCustomDate()"
+                                class="p-2 rounded-lg text-sm border border-theme outline-none focus:ring-2 focus:ring-blue-300">
+                                <option value="week" selected>Última Semana</option>
+                                <option value="today">Hoy</option>
+                                <option value="month">Último Mes</option>
+                                <option value="all">Todo el Historial</option>
+                                <option value="custom">Personalizado...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Custom Date - Hidden by default -->
+                    <div id="dash-custom-date"
+                        class="hidden flex gap-4 items-center justify-end border-t border-theme pt-3 transition-all">
+                        <div class="flex gap-2 items-center">
+                            <div class="flex flex-col">
+                                <label class="text-[10px] text-secondary font-bold uppercase pl-1">Desde</label>
+                                <input type="date" id="dash-start" onchange="updateCharts()"
+                                    class="text-xs bg-card border border-theme rounded p-1 outline-none">
+                            </div>
+                            <div class="flex flex-col">
+                                <label class="text-[10px] text-secondary font-bold uppercase pl-1">Hasta</label>
+                                <input type="date" id="dash-end" onchange="updateCharts()"
+                                    class="text-xs bg-card border border-theme rounded p-1 outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Stat Card -->
                     <div class="glass p-6 rounded-3xl">
                         <div class="flex justify-between items-start mb-4">
                             <h3 class="text-secondary text-xs font-bold uppercase">Eficiencia Global</h3>
-                            <select id="filter-efficiency" onchange="updateCharts()"
-                                class="text-xs p-1 rounded border border-theme">
-                                <option value="all">Todo</option>
-                                <option value="today">Hoy</option>
-                                <option value="week">Semana</option>
-                            </select>
                         </div>
 
                         <div class="h-48 relative flex items-center justify-center">
@@ -703,14 +739,100 @@
                         </div>
                     </div>
 
+                    <!-- HEATMAP -->
+                    <div class="glass p-6 rounded-3xl md:col-span-2">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-secondary text-xs font-bold uppercase">Patrones de Eficiencia (Semanal)</h3>
+                            <div class="flex gap-3 text-[10px] text-secondary font-mono">
+                                <span class="flex items-center gap-1">
+                                    <div class="w-2 h-2 rounded-full bg-red-400"></div> &lt;50%
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <div class="w-2 h-2 rounded-full bg-yellow-400"></div> 50-80%
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <div class="w-2 h-2 rounded-full bg-green-400"></div> &gt;80%
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="relative w-full h-64 overflow-hidden rounded-2xl bg-main/50 border border-theme">
+                            <!-- Axis Labels (Y - Days) -->
+                            <div
+                                class="absolute inset-y-0 left-0 flex flex-col justify-around py-6 pl-2 z-20 pointer-events-none">
+                                <span class="text-[10px] text-secondary font-mono">L</span>
+                                <span class="text-[10px] text-secondary font-mono">M</span>
+                                <span class="text-[10px] text-secondary font-mono">M</span>
+                                <span class="text-[10px] text-secondary font-mono">J</span>
+                                <span class="text-[10px] text-secondary font-mono">V</span>
+                                <span class="text-[10px] text-secondary font-mono">S</span>
+                                <span class="text-[10px] text-secondary font-mono">D</span>
+                            </div>
+
+                            <!-- Axis Labels (X - Hours) - Matched to Grid Padding (pl-6, pr-2) -->
+                            <div id="heatmap-labels-x"
+                                class="absolute left-6 right-2 bottom-1 h-6 z-20 pointer-events-none">
+                                <!-- JS -->
+                            </div>
+
+                            <!-- The Blurred Grid -->
+                            <div class="absolute inset-0 pl-6 pb-6 pt-4 pr-2">
+                                <div id="heatmap-grid" class="w-full h-full gap-0"
+                                    style="display: grid; grid-template-rows: repeat(7, 1fr); grid-template-columns: repeat(24, 1fr); filter: blur(8px); transform: scale(1.02);">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
             <!-- HISTORY VIEW -->
             <section id="view-history" class="hidden fade-in">
-                <div class="flex justify-end mb-4">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-4 gap-4">
+                    <div class="flex flex-wrap gap-2 items-center bg-card p-2 rounded-xl border border-theme shadow-sm">
+                        <!-- Quick Filter -->
+                        <div class="flex flex-col">
+                            <label class="text-[10px] text-secondary font-bold uppercase pl-1">Periodo</label>
+                            <select id="hist-filter-period" onchange="toggleHistCustomDate()"
+                                class="text-xs bg-transparent outline-none p-1 border-r border-theme mr-2">
+                                <option value="all">Todo</option>
+                                <option value="today">Hoy</option>
+                                <option value="week" selected>Semana</option>
+                                <option value="month">Mes</option>
+                                <option value="custom">Personalizado</option>
+                            </select>
+                        </div>
+
+                        <!-- Custom Range -->
+                        <div id="hist-custom-date" class="hidden flex gap-2 items-center">
+                            <div class="flex flex-col">
+                                <label class="text-[10px] text-secondary font-bold uppercase pl-1">Desde</label>
+                                <input type="date" id="hist-filter-start" onchange="applyHistoryFilters()"
+                                    class="text-xs bg-transparent outline-none p-1">
+                            </div>
+                            <div class="h-8 w-px bg-theme"></div>
+                            <div class="flex flex-col">
+                                <label class="text-[10px] text-secondary font-bold uppercase pl-1">Hasta</label>
+                                <input type="date" id="hist-filter-end" onchange="applyHistoryFilters()"
+                                    class="text-xs bg-transparent outline-none p-1">
+                            </div>
+                        </div>
+
+                        <div class="h-8 w-px bg-theme"></div>
+
+                        <div class="flex flex-col min-w-[100px]">
+                            <label class="text-[10px] text-secondary font-bold uppercase pl-1">Materia</label>
+                            <select id="hist-filter-subject" onchange="applyHistoryFilters()"
+                                class="text-xs bg-transparent outline-none p-1 w-full">
+                                <option value="all">Todas</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <button onclick="openManualEntry()"
-                        class="bg-acc-blue hover:brightness-95 text-primary px-4 py-2 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
+                        class="bg-acc-blue hover:brightness-95 text-primary px-4 py-3 rounded-xl font-bold text-sm shadow-sm transition-colors flex items-center gap-2">
                         <i class="fas fa-plus"></i> Agregar Sesión
                     </button>
                 </div>
@@ -1236,6 +1358,7 @@
             document.getElementById('user-display').textContent = user ? user.email : 'Modo Invitado';
 
             renderDropdowns();
+            renderFilterDropdowns(); // Init filters
             renderSettingsUI();
             // Highlight active theme button on init
             const currentTheme = document.body.getAttribute('data-theme') || 'pastel';
@@ -1392,6 +1515,7 @@
         function saveManagerList(data, key) {
             localStorage.setItem(key, JSON.stringify(data));
             renderDropdowns(); // Update main UI dropdowns immediately
+            renderFilterDropdowns(); // Update filters too
         }
 
 
@@ -1515,6 +1639,26 @@
             // Show overlay
             document.getElementById('pause-reason-display').textContent = "Motivo: " + reason;
             dom.overlayPaused.classList.remove('hidden');
+        };
+
+        window.renderFilterDropdowns = () => {
+            const subjects = JSON.parse(localStorage.getItem('study_subjects') || '[]');
+            const dashSel = document.getElementById('dash-filter-subject');
+            const histSel = document.getElementById('hist-filter-subject');
+
+            const populate = (sel) => {
+                if (!sel) return;
+                const currentVal = sel.value || 'all';
+                let html = '<option value="all">Todas</option>';
+                subjects.forEach(s => {
+                    html += `<option value="${s}">${s}</option>`;
+                });
+                sel.innerHTML = html;
+                sel.value = currentVal; // Restore if possible
+            };
+
+            populate(dashSel);
+            populate(histSel);
         };
 
         window.resumeSession = () => {
@@ -1686,24 +1830,19 @@
             }
         }
 
-        function renderHistoryData(dataArray) {
-            dataArray.sort((a, b) => b.createdAt - a.createdAt);
-
-            if (dataArray.length === 0) {
-                dom.historyList.innerHTML = '<tr><td colspan="5" class="p-8 text-center italic text-secondary">No hay sesiones registradas aún.</td></tr>';
-                window.chartData = null;
-                updateCharts();
-                return;
-            }
-
+        // Render the actual table rows
+        function renderHistoryList(dataArray) {
             const list = dom.historyList;
             list.innerHTML = '';
+
+            if (!dataArray || dataArray.length === 0) {
+                list.innerHTML = '<tr><td colspan="5" class="p-8 text-center italic text-secondary">No se encontraron sesiones en este periodo.</td></tr>';
+                return;
+            }
 
             dataArray.forEach(data => {
                 const dateStr = new Date(data.startTime).toLocaleDateString();
                 const minutes = Math.floor(data.netDuration / 60000);
-
-                // Unique keys for edit/delete
                 const itemId = data.id;
 
                 const row = `
@@ -1719,9 +1858,59 @@
                 `;
                 list.innerHTML += row;
             });
+        }
 
+        // Main Entry point from Firestore/Load
+        function renderHistoryData(dataArray) {
+            // Sort by date desc
+            dataArray.sort((a, b) => b.createdAt - a.createdAt);
+
+            // Initial Render (No filters active usually, or reset?)
+            // We'll run the filter logic to be safe, ensuring consistency
+            applyHistoryFilters();
+
+            // Also update charts since data changed
             updateCharts();
         }
+
+        window.applyHistoryFilters = () => {
+            if (!window.globalSessionCache) return;
+
+            const startVal = document.getElementById('hist-filter-start').value;
+            const endVal = document.getElementById('hist-filter-end').value;
+            const subVal = document.getElementById('hist-filter-subject').value;
+            const periodVal = document.getElementById('hist-filter-period').value;
+
+            let filtered = [...window.globalSessionCache];
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            // Period Logic
+            if (periodVal === 'custom') {
+                if (startVal) {
+                    const s = new Date(startVal).getTime();
+                    filtered = filtered.filter(d => d.startTime >= s);
+                }
+                if (endVal) {
+                    const e = new Date(endVal).setHours(23, 59, 59, 999);
+                    filtered = filtered.filter(d => d.startTime <= e);
+                }
+            } else if (periodVal === 'today') {
+                filtered = filtered.filter(d => (now - d.startTime) < oneDay);
+            } else if (periodVal === 'week') {
+                filtered = filtered.filter(d => (now - d.startTime) < (7 * oneDay));
+            } else if (periodVal === 'month') {
+                filtered = filtered.filter(d => (now - d.startTime) < (30 * oneDay));
+            }
+
+            // Subject Logic
+            if (subVal && subVal !== 'all') {
+                filtered = filtered.filter(d => d.subject === subVal);
+            }
+
+            filtered.sort((a, b) => b.createdAt - a.createdAt);
+            renderHistoryList(filtered);
+        };
 
         // --- DETAIL & FEATURES ---
 
@@ -2284,19 +2473,67 @@
         };
 
 
+        // --- FILTERING HELPERS ---
+        window.toggleDashCustomDate = () => {
+            const val = document.getElementById('dash-filter-period').value;
+            const customDiv = document.getElementById('dash-custom-date');
+            if (val === 'custom') customDiv.classList.remove('hidden');
+            else customDiv.classList.add('hidden');
+            updateCharts();
+        };
+
+        window.toggleHistCustomDate = () => {
+            const val = document.getElementById('hist-filter-period').value;
+            const customDiv = document.getElementById('hist-custom-date');
+
+            if (val === 'custom') {
+                customDiv.classList.remove('hidden');
+            } else {
+                customDiv.classList.add('hidden');
+            }
+            applyHistoryFilters();
+        };
+
         window.updateCharts = () => {
             if (!window.globalSessionCache) return;
 
-            // Filter Logic
-            const filter = document.getElementById('filter-efficiency').value;
+            // Filter Logic (Global)
+            const filterEl = document.getElementById('dash-filter-period');
+            const subFilterEl = document.getElementById('dash-filter-subject');
+            const startEl = document.getElementById('dash-start');
+            const endEl = document.getElementById('dash-end');
+
+            const filter = filterEl ? filterEl.value : 'week';
+            const subFilter = subFilterEl ? subFilterEl.value : 'all';
+
             const now = Date.now();
             const oneDay = 24 * 60 * 60 * 1000;
 
             let filteredData = window.globalSessionCache.filter(session => {
-                if (filter === 'all') return true;
-                if (filter === 'today') return (now - session.startTime) < oneDay;
-                if (filter === 'week') return (now - session.startTime) < (7 * oneDay);
-                return true;
+                // Period Filter
+                let periodMatch = true;
+                if (filter === 'custom') {
+                    if (startEl.value) {
+                        const s = new Date(startEl.value).getTime();
+                        if (session.startTime < s) periodMatch = false;
+                    }
+                    if (endEl.value) {
+                        const e = new Date(endEl.value).setHours(23, 59, 59, 999);
+                        if (session.startTime > e) periodMatch = false;
+                    }
+                } else if (filter === 'today') {
+                    periodMatch = (now - session.startTime) < oneDay;
+                } else if (filter === 'week') {
+                    periodMatch = (now - session.startTime) < (7 * oneDay); // Last 7 days
+                } else if (filter === 'month') {
+                    periodMatch = (now - session.startTime) < (30 * oneDay);
+                }
+
+                // Subject Filter
+                let subMatch = true;
+                if (subFilter !== 'all') subMatch = session.subject === subFilter;
+
+                return periodMatch && subMatch;
             });
 
             // Re-calculate aggregations for charts
@@ -2415,7 +2652,203 @@
                     plugins: { legend: { display: false } }
                 }
             });
+
+            // CALL HEATMAP
+            renderHeatmap(filteredData);
         };
+
+        function renderHeatmap(sessionData) {
+            const grid = document.getElementById('heatmap-grid');
+            const labelsContainer = document.getElementById('heatmap-labels-x');
+            if (!grid || !labelsContainer) return;
+            grid.innerHTML = '';
+            labelsContainer.innerHTML = '';
+
+            // 1. Determine Dynamic Range (Min Hour - Max Hour)
+            let minH = 24;
+            let maxH = 0;
+
+            if (sessionData.length === 0) {
+                // Default if empty
+                minH = 8;
+                maxH = 20;
+            } else {
+                sessionData.forEach(s => {
+                    const d1 = new Date(s.startTime);
+                    const d2 = new Date(s.endTime);
+                    let h1 = d1.getHours();
+                    let h2 = d2.getHours();
+                    if (h2 < h1) h2 = 23;
+
+                    if (h1 < minH) minH = h1;
+                    if (h2 > maxH) maxH = h2;
+                });
+
+                // Add padding (buffer)
+                minH = Math.max(0, minH - 1);
+                maxH = Math.min(23, maxH + 1);
+            }
+
+            if (minH >= maxH) { minH = 0; maxH = 23; }
+
+            const totalCols = maxH - minH + 1;
+
+            // 2. Setup Grid CSS
+            grid.style.display = 'grid';
+            grid.style.gridTemplateRows = 'repeat(7, 1fr)';
+            grid.style.gridTemplateColumns = `repeat(${totalCols}, 1fr)`;
+            grid.style.gap = '2px';
+            grid.style.filter = 'blur(8px)';
+            grid.style.transform = 'scale(1.02)';
+
+            // 3. Render Axis Labels (X) - Centered on Columns
+            for (let h = minH; h <= maxH; h++) {
+                // Show label every ~2 hours to avoid crowding, but ensuring alignment
+                // Logic: First, Last, and every Even number (or odd if start is odd? Just Evens is simpler)
+                if (h === minH || h === maxH || h % 2 === 0) {
+                    const span = document.createElement('span');
+                    span.className = 'text-[10px] text-secondary font-mono absolute font-bold whitespace-nowrap';
+
+                    // Center the label in the column: (index + 0.5) / totalCols
+                    const colIndex = h - minH;
+                    const pct = ((colIndex + 0.5) / totalCols) * 100;
+
+                    span.style.left = `${pct}%`;
+                    span.style.transform = 'translateX(-50%)'; // Always center relative to the computed position
+                    span.textContent = `${h}h`;
+
+                    labelsContainer.appendChild(span);
+                }
+            }
+
+            // 4. Fill Buckets & 5. Render Cells
+            // ... (Buckets filling is unchanged, copying logic for context if needed, but we can target the loops)
+            // Re-declaring buckets loop structure for the Replace tool to match context or just replace the Render Loop part?
+            // The user asked for color changes too.
+            // I will assume the 'buckets' array is already populated from previous valid code or I should include the population logic to be safe?
+            // To be precise with 'replace_file_content', I will target the RENDER loop specifically if I can, but the previous edit overlapped regions.
+            // I will replace from the Label Loop down to the end of the function to ensure all context is correct.
+
+            // ... [Assume bucket population happened above] ... 
+
+            // 4. Fill Buckets (Redoing population for safety in this block replacement)
+            const buckets = Array(7).fill().map(() => Array(totalCols).fill().map(() => ({ net: 0, gross: 0, count: 0, ids: [] })));
+
+            sessionData.forEach(s => {
+                const date = new Date(s.startTime);
+                let dayIndex = date.getDay() - 1;
+                if (dayIndex < 0) dayIndex = 6;
+
+                const startH = date.getHours();
+                const endH = new Date(s.endTime).getHours();
+
+                let h = startH;
+                let currentDay = dayIndex;
+                let safety = 0;
+
+                while (safety < 24) {
+                    if (h >= minH && h <= maxH) {
+                        const colIdx = h - minH;
+                        buckets[currentDay][colIdx].net += (s.netDuration || 0);
+                        buckets[currentDay][colIdx].gross += (s.grossDuration || 0);
+                        buckets[currentDay][colIdx].count++;
+                        if (!buckets[currentDay][colIdx].ids.includes(s.id)) {
+                            buckets[currentDay][colIdx].ids.push(s.id);
+                        }
+                    }
+                    if (h === endH) break;
+                    h++;
+                    if (h === 24) break;
+                    safety++;
+                }
+            });
+
+            // 5. Render Cells
+            for (let d = 0; d < 7; d++) {
+                for (let c = 0; c < totalCols; c++) {
+                    const el = document.createElement('div');
+                    const b = buckets[d][c];
+
+                    if (b.count > 0) {
+                        let eff = 0;
+                        if (b.gross > 0) eff = Math.round((b.net / b.gross) * 100);
+
+                        // Expanded Color Spectrum (0-160 Hue)
+                        // 0=Red, 30=Orange, 60=Yellow, 120=Green, 160=Teal/Cyan
+                        let hue = 0;
+                        if (eff <= 50) {
+                            // 0 to 50% -> Red (0) to Yellow (60)
+                            hue = (eff / 50) * 60;
+                        } else {
+                            // 50 to 100% -> Yellow (60) to Teal (170)
+                            hue = 60 + ((eff - 50) / 50) * 110;
+                        }
+
+                        // Alpha based on density
+                        const alpha = Math.min(1, 0.65 + (b.count * 0.1));
+
+                        // Saturation boost for high efficiency
+                        const sat = eff > 80 ? '100%' : '90%';
+                        const light = eff > 90 ? '50%' : '55%'; // Pop more if high
+
+                        el.style.backgroundColor = `hsla(${hue}, ${sat}, ${light}, ${alpha})`;
+                        el.style.borderRadius = '30%'; // Slightly more squared for "grid" feel but still organic
+
+                        // Interaction
+                        el.classList.add('cursor-pointer', 'transition-all', 'hover:scale-110', 'hover:brightness-110', 'hover:z-50');
+                        el.onclick = () => {
+                            if (b.ids.length === 1) openSessionDetails(b.ids[0]);
+                            else if (b.ids.length > 1) showSessionSelector(b.ids);
+                        };
+                        el.title = `${new Date(0, 0, 0, minH + c).getHours()}h:00 - Efic: ${eff}% (${b.count} sesiones)`;
+
+                    } else {
+                        el.style.backgroundColor = 'transparent';
+                    }
+                    grid.appendChild(el);
+                }
+            }
+        }
+
+        function showSessionSelector(ids) {
+            // Find session objects
+            const sessions = ids.map(id => window.globalSessionCache.find(s => s.id === id)).filter(Boolean);
+            if (sessions.length === 0) return;
+
+            // Sort by time
+            sessions.sort((a, b) => b.startTime - a.startTime);
+
+            // Construct Msg UI
+            let html = `<div class="flex flex-col gap-2 max-h-60 overflow-y-auto">`;
+            sessions.forEach(s => {
+                const time = new Date(s.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const sub = s.subject || 'Sin materia';
+                html += `
+                    <button onclick="openSessionDetails('${s.id}'); document.getElementById('modal-generic').classList.remove('open')" 
+                        class="text-left p-3 rounded-xl bg-gray-50 hover:bg-acc-blue hover:text-primary transition-colors border border-theme w-full flex justify-between items-center group">
+                        <div>
+                            <div class="font-bold text-xs uppercase">${sub}</div>
+                            <div class="text-[10px] text-secondary group-hover:text-primary">${time}</div>
+                        </div>
+                        <div class="font-bold text-sm">${s.efficiency}%</div>
+                    </button>
+                 `;
+            });
+            html += `</div>`;
+
+            // Use Generic Modal - We need to inject HTML into 'msg' or handle it custom.
+            // Our showModal uses textContent for msg. Let's direct inject.
+            const mTitle = document.getElementById('modal-title');
+            const mMsg = document.getElementById('modal-msg');
+            const mActs = document.getElementById('modal-actions');
+            const overlay = document.getElementById('modal-generic');
+
+            mTitle.textContent = "Selecciona Sesión";
+            mMsg.innerHTML = html; // Override textContent usage logic if simple, or we just set innerHTML
+            mActs.innerHTML = `<button onclick="document.getElementById('modal-generic').classList.remove('open')" class="px-4 py-2 rounded-lg text-sm text-secondary hover:bg-gray-100">Cerrar</button>`;
+
+            overlay.classList.add('open');
+        }
 
 
     </script>
